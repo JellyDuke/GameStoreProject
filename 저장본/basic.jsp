@@ -9,7 +9,14 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>GameStorePorject</title>
-        
+
+        <style>
+        .content{
+        border: 1px solid #F00;
+        height: 400px;
+        }
+        </style>
+
     </head>
     <body>
         <!-- 메뉴 -->
@@ -18,7 +25,9 @@
         <%@ include file="/WEB-INF/views/include/header.jsp"%>
         
         <!-- contents start -->
-       
+        <div class="contents">
+            컨텐츠
+        </div>
         <!-- contents end -->
 
         <!-- Footer-->
