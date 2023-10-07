@@ -12,9 +12,9 @@
 
         <style>
             .content{
-            border: 1px solid #F00;
-            height: 400px;
-            }
+                border: 1px solid #F00;
+                height: 400px;
+             }
         </style>
 
     </head>
