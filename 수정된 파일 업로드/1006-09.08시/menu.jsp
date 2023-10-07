@@ -2,6 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+        <!-- icon -->
+        <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath }/resources/users/assets/favicon.ico" />
+        
+        <!-- bootstrap icon-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+       
+        <!-- bootstrap css-->
+        <link href="${pageContext.request.contextPath }/resources/users/css/styles.css" rel="stylesheet" />
+
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="${pageContext.request.contextPath }/">GameStoreProject</a>
