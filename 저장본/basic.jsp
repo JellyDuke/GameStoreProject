@@ -11,10 +11,10 @@
         <title>GameStorePorject</title>
 
         <style>
-        .content{
-        border: 1px solid #F00;
-        height: 400px;
-        }
+            .content{
+            border: 1px solid #F00;
+            height: 400px;
+            }
         </style>
 
     </head>
