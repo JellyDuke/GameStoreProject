@@ -20,7 +20,9 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">상점</a></li>
                         <li class="nav-item"><a class="nav-link active" href="#!">고객지원</a></li>
                         
-                    <c:choose>
+                    <li class="nav-item" style="margin-left: 70px;"> <input type="text" name="search" placeholder="search" class="nav-link active" style="width: 500px;"> </li>
+                   
+                   	<c:choose>
                     
                   		<c:when test="${sessionScope.loginId = null }">    
                        		<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath }/loginpage">로그인</a></li>
@@ -28,7 +30,7 @@
                    		</c:when> 
                         
                         <c:otherwise>
-	                        <li class="nav-item dropdown">
+	                        <li class="nav-item dropdown" style="margin-left: 70px;">
 	                            <a class="nav-link dropdown-toggle active" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">프로필</a>
 	                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 	                                <li><a class="dropdown-item" href="${pageContext.request.contextPath }/mypage">내 정보</a></li>
@@ -46,7 +48,6 @@
                         </c:otherwise>
                         
                     </c:choose>
-                    <li class="nav-item" style="margin-left: 70px;"> <input type="text" name="search" placeholder="search" class="nav-link active" style="width: 500px;"> </li>
                     
                     </ul>
                     <form class="d-flex">
