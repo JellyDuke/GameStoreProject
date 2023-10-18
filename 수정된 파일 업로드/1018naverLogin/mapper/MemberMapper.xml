@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.gamestoreproject.dao.MemberDao">
+
+	<select id="getMemInfo" parameterType="String" resultType="com.gamestoreproject.dto.Member">
+		SELECT * FROM MEMBERS WHERE MID = #{id }
+	</select>
+	
+	<insert id="memberJoin_Naver" parameterType="com.gamestoreproject.dto.Member">
+		INSERT INTO MEMBERS(MID, MPW, MNAME, MNICKNAME, MPOINT, MPROFILE, MSTATE, MDATE)
+		VALUES(#{mem.mid }, 'naverAccount', #{mem.mname }, #{mem.mnickname }, 0, #{mem.mprofile }, 'YN', SYSDATE)
+	</insert>
+</mapper>
