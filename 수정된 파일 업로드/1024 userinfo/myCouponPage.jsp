@@ -165,8 +165,7 @@
 							    <li><a class="dropdown-item" href="#">사용불가(완료)</a></li>	
 							    <c:choose>
 			                  		<c:when test = "${sessionScope.loginId == 'jinseoshin3@naver.com' }">   
-			                       		<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath }/makecouponpage">로그인</a></li>
-										<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath }/viewcouponused">회원가입</a></li>
+			                       		<li><a class="dropdown-item" href="${pageContext.request.contextPath }/makecouponpage">쿠폰발행</a></li>										
 			                   		</c:when>     	
 							    </c:choose>			  	
 							  </ul>
@@ -192,6 +191,16 @@
 										<td>${cL.cdate }</td>
 										<td>${cL.cdeadline }</td>
 										<c:choose>											
+											<c:when test = "${sessionScope.loginId == 'jinseoshin3@naver.com' }">   
+			                       				<c:choose>
+			                       					<c:when test = "${cL.cstack == '0' }">   
+			                       						<td>등록완료</td>			
+			                   						</c:when> 
+			                   						<c:otherwise>
+			                   							<td>${cL.cstack }</td>
+			                   						</c:otherwise>
+			                       				</c:choose>	
+			                   				</c:when> 
 											<c:when test="${cL.datecheck == 'N' }">
 												<td>기간만료</td>
 											</c:when>
