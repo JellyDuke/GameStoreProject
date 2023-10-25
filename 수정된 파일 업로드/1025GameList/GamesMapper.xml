@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gamestoreproject.dao.GamesDao">
+	<select id="selectGameList">
+		SELECT GCODE, GNAME, GSYSTEM, GPUBLISHER, GMAKER, TO_CHAR(GRELEASE, 'YYYY-MM-DD') AS GRELEASE, GMAINIMG, GIMG, GVIDEO, GPRICE, GSALE, GDEADLINE, GTAG, GSTATE
+	 	FROM GAMES
+	 	WHERE ROWNUM BETWEEN 1 AND #{gameCount } AND GSTATE = '1'
+	</select>
+</mapper>
