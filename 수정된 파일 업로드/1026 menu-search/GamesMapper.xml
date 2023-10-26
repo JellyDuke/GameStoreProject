@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gamestoreproject.dao.GamesDao">
+	<select id="selectGameList" resultType="com.gamestoreproject.dto.Game">
+		SELECT *
+	 	FROM Games
+	 	WHERE ROWNUM BETWEEN 1 AND 12
+	</select>
+	<select id="getTyp" resultType="String">
+		SELECT DISTINCT GNAME FROM GAMES WHERE GNAME LIKE '%'||#{text}||'%'
+	</select>
+	<select id="gettag" resultType="String">
+		SELECT DISTINCT GTAG FROM GAMES	
+	</select>
+	<insert id="makecoupon">
+		INSERT INTO COUPONS(CCODE,CREGIST,CPERCENT,CDEADLINE,CUSED,COWNER,CDATE,CSTACK,CTYPE,CNUMBER)
+		VALUES(#{ccode},'N',#{cpercent},SYSDATE+30,'N',#{cowner},SYSDATE,#{cstack},#{ctype},#{cnumber})
+	</insert>
+	<select id="codeCheck" resultType="int">
+		SELECT NVL(COUNT(CNUMBER),0) FROM COUPONS WHERE CNUMBER = #{cnumber}
+	</select>
+	<select id="codecheck" resultType="int">
+		SELECT NVL(COUNT(CNUMBER),0) FROM COUPONS WHERE CNUMBER = #{code} AND CSTACK != 0 AND CREGIST = 'N'
+	</select>
+	<select id="getcode" resultType="String">
+		SELECT NVL(MAX(CCODE),'C000000') FROM COUPONS
+	</select>
+	<select id="gettype">
+		SELECT CTYPE FROM COUPONS WHERE CNUMBER = #{code} AND CREGIST = 'N'
+	</select>
+	<select id="getpercent">
+		SELECT CPERCENT FROM COUPONS WHERE CNUMBER = #{code} AND CREGIST = 'N'
+	</select>
+	<insert id="registcoupon">
+		INSERT INTO COUPONS(CCODE,CREGIST,CPERCENT,CDEADLINE,CUSED,COWNER,CDATE,CSTACK,CTYPE,CNUMBER)
+		VALUES(#{ccode},'Y',#{cpercent},SYSDATE+30,'N',#{cowner},SYSDATE,1,#{ctype},#{cnumber})
+	</insert>
+	<update id="stackCh">
+		UPDATE COUPONS
+		SET CSTACK = CSTACK-1 WHERE CNUMBER = #{code} AND CREGIST = 'N'
+	</update>
+	<select id="getcouponList" resultType="co">
+		SELECT * FROM COUPONS WHERE COWNER = #{uid}
+	</select>
+	<select id="checkcode" resultType="int">
+		SELECT NVL(COUNT(CCODE),0) FROM COUPONS WHERE CNUMBER = #{code} AND CREGIST = 'Y' AND COWNER = #{cowner} And CDEADLINE > SYSDATE
+	</select>
+	<select id="getInfo" resultType="gm">
+		SELECT GCODE, GNAME, GSALE, GPRICE, GMAINIMG, GSALE, GTAG FROM GAMES WHERE LOWER(GNAME) LIKE LOWER(#{text}||'%')
+	</select>
+</mapper>
