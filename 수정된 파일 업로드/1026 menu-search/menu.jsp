@@ -31,6 +31,7 @@
     		#imgdiv{
     			width: 180px;
     			height: 95px;
+    			min-width: 180px;
     		}
     		#imgdiv>img{
     			padding-left: 5px;
