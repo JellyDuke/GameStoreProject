@@ -39,7 +39,7 @@
 		VALUES(#{mem.mid }, 'naverAccount', #{mem.mname }, #{mem.mnickname }, 0, #{mem.mprofile }, 'YN', SYSDATE)
 	</insert>
 	
-	<delete id="deleteMember" parameterType="String">
+	<delete id="deleteMember">
 		DELETE FROM MEMBERS
 		WHERE MID = #{mid}
 	</delete>
@@ -51,7 +51,7 @@
 	</select>
 	<update id="updateMpw">
 		UPDATE MEMBERS
-		SET MPW = #{nmpw}
-		WHERE = #{mid}
+		SET MPW = #{mpw}
+		WHERE MID = #{mid}
 	</update>
 </mapper>

@@ -69,7 +69,21 @@
         <a href="${pageContext.request.contextPath }/mypage">
           <span class="icon">
           	<div class="imgBx">
-          		<img src="${sessionScope.loginProfile }">
+          	<c:choose>
+				<c:when test="${sessionScope.loginState == 'YP' }">
+					<img style= "width: 60px; height: 60px;" src="resources/memberprofile/${sessionScope.loginProfile }">
+				</c:when>
+				<c:otherwise>
+					<c:choose>
+						<c:when test="${sessionScope.loginState == 'Y ' }">
+							<img style= "width: 60px; height: 60px;" src="${pageContext.request.contextPath }/resources/users/assets/img/basic.png">
+						</c:when>
+					<c:otherwise>
+        		  		<img style= "width: 60px; height: 60px;" src="${sessionScope.loginProfile }">
+					</c:otherwise>
+					</c:choose>
+				</c:otherwise>
+			</c:choose>	
           	</div>
           </span>
           <span class="text" style="margin-left: 15px;"> ${sessionScope.loginMnickname }</span>
@@ -102,8 +116,8 @@
       </li>
       <li>
         <a href="#">
-          <span class="icon">P</span>
-          <span class="text">포인트</span>
+          <span class="icon"><ion-icon name="cash-outline"></ion-icon></span>
+          <span class="text">포인트 충전</span>
         </a>
       </li>
       <li>

@@ -115,9 +115,11 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<!-- Core theme JS-->
 	<script src="resources/users/js/scripts.js"></script>
-
+	<!-- Jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	
 </body>
-<script type="text/javascript">
+	<script type="text/javascript">
 		let msg = '${msg}';
 		if(msg.length > 0){
 			alert(msg);

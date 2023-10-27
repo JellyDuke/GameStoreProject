@@ -9,6 +9,7 @@
 	 	FROM GAMES
 	 	WHERE ROWNUM BETWEEN 1 AND 12 AND GSTATE = '1'
 	</select>
+	
 	<select id="selectGameList">
 		SELECT GCODE, GNAME, GSYSTEM, GPUBLISHER, GMAKER, TO_CHAR(GRELEASE, 'YYYY-MM-DD') AS GRELEASE, GMAINIMG, GIMG, GVIDEO, GPRICE, GSALE, GDEADLINE, GTAG, GSTATE
 	 	FROM GAMES
@@ -64,6 +65,10 @@
 	
 	<select id="checkcode" resultType="int">
 		SELECT NVL(COUNT(CCODE),0) FROM COUPONS WHERE CNUMBER = #{code} AND CREGIST = 'Y' AND COWNER = #{cowner} And CDEADLINE > SYSDATE
+	</select>
+	
+	<select id="getInfo" resultType="gm">
+		SELECT GCODE, GNAME, GSALE, GPRICE, GMAINIMG, GSALE, GTAG FROM GAMES WHERE LOWER(GNAME) LIKE LOWER(#{text}||'%')
 	</select>
 	
 </mapper>

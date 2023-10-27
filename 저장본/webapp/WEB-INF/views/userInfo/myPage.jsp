@@ -131,11 +131,37 @@
 	            	
 	            	<div class="mt-3 comment_info">
 	            		<div class="mt-3 comment_title">
-					  		회원정보 조회         	
+					  		회원정보 조회     	
             			</div>
 	            		
-						<table class="w-100 h-100">			
+						<table class="w-100 h-100">
 							<tr>
+								<c:choose>
+									<c:when test="${sessionScope.loginState == 'YP' }">
+										<th class="table_th"><img style="margin-left:20px; width: 150px; height: 150px;" src="resources/memberprofile/${sessionScope.loginProfile }"></th>
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${sessionScope.loginState == 'Y ' }">
+												<th class="table_th"><img style="margin-left:20px; width: 150px; height: 150px;" src="${pageContext.request.contextPath }/resources/users/assets/img/basic.png"></th>
+											</c:when>
+											<c:otherwise>
+												<th class="table_th"><img style="margin-left:20px; width: 150px; height: 150px;" src="${sessionScope.loginProfile }"></th>
+											</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
+								
+								<td class="table_bd"> 프로필 변경 <br> 
+									<form action="${pageContext.request.contextPath }/mproFile" method="post" enctype="multipart/form-data"	>
+										<input type="file" name="bfile"> 
+										<div>
+											<input type="submit" value="등록">
+										</div>
+									</form>
+								</td>
+							</tr>			
+							<tr>	
 								<th class="table_th">아이디</th>
 								<td class="table_bd"> <span>${sessionScope.loginId }</span></td>
 							</tr>

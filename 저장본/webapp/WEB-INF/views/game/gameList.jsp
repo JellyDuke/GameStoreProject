@@ -116,8 +116,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-12">
 		                <li class="nav-item dropdown">
-			                <a class="nav-link dropdown-toggle active" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">정렬</a>
-			                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			                <a class="nav-link dropdown-toggle active" id="navbarDropdowns" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">정렬</a>
+			                <ul class="dropdown-menu" aria-labelledby="navbarDropdowns">
 								<li><button class="dropdown-item" onclick="prdSort(this)" value="release_desc">출시일순</button></li>
 								<li><hr class="dropdown-divider"/></li>
 				                <li><button class="dropdown-item" onclick="prdSort(this)" value="sale_desc">할인율순</button></li>
@@ -233,7 +233,7 @@
         function prdSort(sortOption){
             console.log("정렬기능 호출 - " + sortOption.innerText);
             
-            document.querySelector('#navbarDropdown').innerText = sortOption.innerText;
+            document.querySelector('#navbarDropdowns').innerText = sortOption.innerText;
             
             let prdList = document.querySelectorAll('#gameList>div.gameList_info');
             let prdList_arr = Array.from(prdList); // 현재 출력 중인 상품들

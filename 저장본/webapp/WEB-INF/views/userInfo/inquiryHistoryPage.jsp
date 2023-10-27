@@ -186,7 +186,7 @@
 									<tr>
 										<td>${il.icode }</td>
 										<td>${sessionScope.loginMnickname }</td>
-										<td>${il.ititle }</td>
+										<td><a href="${pageContext.request.contextPath}/inquiryView?icode=${il.icode }">${il.ititle }</a></td>
 										<td>${il.idate }</td>
 										<c:choose>
 											<c:when test="${il.iredate == null}">

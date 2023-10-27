@@ -9,6 +9,11 @@
 		FROM INQUIRES
 	</select>
 	
+	<select id="selectMaxAcode">
+		SELECT NVL(MAX(ACODE),'AC00000')
+		FROM ANSWERS
+	</select>
+	
 	<insert id="insertInquiry">
 		INSERT INTO INQUIRES(ICODE,IMCODE,ICONTENT,IDATE,IREDATE,IRECONTENT,ITITLE)
 		VALUES(#{in.icode}, #{in.imcode}, #{in.icontent}, SYSDATE, '', '', #{in.ititle})
@@ -17,6 +22,16 @@
 	<select id="selectInquireList" resultType="com.gamestoreproject.dto.Inquire">
 		SELECT *
 		FROM INQUIRES
+		WHERE IMCODE = #{mid}
 	</select>
 	
+	<update id="updateFile">
+		update MEMBERS 
+		SET MPROFILE = #{mem.mprofile}, MSTATE = #{mem.mstate}
+		WHERE MID = #{mem.mid}
+	</update>
+	
+	<select id="selectInquiry" resultType="com.gamestoreproject.dto.Inquire">
+		SELECT * FROM INQUIRES WHERE ICODE = #{icode}
+	</select>
 </mapper>
