@@ -12,7 +12,7 @@ public class Game {
 	private String gimg;
 	private String gvideo;
 	private int gprice;
-	private int gsale;
+	private double gsale;
 	private String gdeadline;
 	private String gtag;
 	private String gstate;
@@ -82,10 +82,10 @@ public class Game {
 	public void setGprice(int gprice) {
 		this.gprice = gprice;
 	}
-	public int getGsale() {
+	public double getGsale() {
 		return gsale;
 	}
-	public void setGsale(int gsale) {
+	public void setGsale(double gsale) {
 		this.gsale = gsale;
 	}
 	public String getGdeadline() {
@@ -113,5 +113,7 @@ public class Game {
 				+ gmainimg + ", gimg=" + gimg + ", gvideo=" + gvideo + ", gprice=" + gprice + ", gsale=" + gsale
 				+ ", gdeadline=" + gdeadline + ", gtag=" + gtag + ", gstate=" + gstate + "]";
 	}
+	
+	
 	
 }

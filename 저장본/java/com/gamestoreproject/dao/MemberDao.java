@@ -28,6 +28,6 @@ public interface MemberDao {
 
 	int selectfindAccount(@Param("mid")String mid, @Param("mpw")String currentPw);
 
-	int updateMpw(@Param("nmid")String newPw, @Param("nmid")String mid);
+	int updateMpw(@Param("mpw")String newPw, @Param("mid")String mid);
 
 }

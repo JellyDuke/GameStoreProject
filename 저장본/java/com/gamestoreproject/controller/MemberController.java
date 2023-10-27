@@ -125,22 +125,25 @@ public class MemberController {
 	@RequestMapping(value = "/secession", method = RequestMethod.GET)
 	public ModelAndView removeMember(HttpSession session, ModelAndView mv,RedirectAttributes ra) {
 		System.out.println("MEMBER CONTROLLER - 회원탈퇴 요청");
-		System.out.println(session.getAttribute("loginId"));
 		Member member = new Member();
 		member.setMid((String)session.getAttribute("loginId"));
-		
-		System.out.println(member);
 		String memberId = member.getMid();
-		System.out.println(memberId);
-		try {
-			int result = msvc.removeMember(memberId,session);
-
-			if (result == 1) {
-				mv.setViewName("redirect:/logout");
+		
+		if(memberId == null) {
+			ra.addFlashAttribute("msg","로그인 이후 이용 가능합니다.");
+			mv.setViewName("redirect:/loginpage");
+			return mv;
+		}else {
+			try {
+				int result = msvc.removeMember(memberId,session);
+				if (result > 0) {
+					mv.setViewName("redirect:/logout");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				ra.addFlashAttribute("msg","로그아웃 되었습니다.");
+				mv.setViewName("home");
 			}
-		} catch (Exception e) {
-			ra.addFlashAttribute("msg","로그아웃 되었습니다.");
-			mv.setViewName("home");
 		}
 		
 		return mv;
@@ -161,7 +164,7 @@ public class MemberController {
 		
 		int findAccount = msvc.findAccount(mid, currentPw);
 		System.out.println(findAccount);
-		
+		System.out.println(newPw + mid);
 		if(findAccount == 0) {
 			ra.addFlashAttribute("msg","올바른 비밀번호를 입력하세요.");
 			return "redirect:/rePassword";

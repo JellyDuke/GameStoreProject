@@ -1,5 +1,6 @@
 package com.gamestoreproject.controller;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gamestoreproject.dto.Answer;
 import com.gamestoreproject.dto.Coupon;
+import com.gamestoreproject.dto.Game;
 import com.gamestoreproject.dto.Inquire;
+import com.gamestoreproject.dto.Member;
 import com.gamestoreproject.service.UserInfoService;
 
 @Controller
@@ -24,6 +29,8 @@ public class UserInfoController {
 	@Autowired
 	private UserInfoService usvc;
 	
+	
+	//페이지 보기 시작
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public ModelAndView mypage(){
 		System.out.println("USERINFO CONTROLLER - 내 정보 이동");
@@ -73,19 +80,25 @@ public class UserInfoController {
 		return mav;
 	}
 	@RequestMapping(value = "/inquiryHistory", method = RequestMethod.GET)
-	public ModelAndView inquiryHistory(){
+	public ModelAndView inquiryHistory(HttpSession session){
 		System.out.println("USERINFO CONTROLLER - 문의 내역 리스트");
 		
 		ModelAndView mav = new ModelAndView();
+		String mid = (String) session.getAttribute("loginId");
 		
 		//1.문의 목록 조회
-		ArrayList<Inquire> inquireList = usvc.inquireList();
+		ArrayList<Inquire> inquireList = usvc.inquireList(mid);
 		mav.addObject("inquireList",inquireList);
 		
 		mav.setViewName("userInfo/inquiryHistoryPage");
 		return mav;
 	}
+	//페이지 보기 끝
 	
+	
+	
+	
+	//쿠폰 시작
 	@RequestMapping(value = "/mycouponpage", method = RequestMethod.GET)
 	public ModelAndView mycouponpage(HttpSession session) throws ParseException{
 		System.out.println("USERINFO CONTROLLER - 내 쿠폰 리스트");		
@@ -142,6 +155,14 @@ public class UserInfoController {
 		ArrayList<String> typeList = usvc.getTypeList(text);
 		return typeList;
 	}
+	//검색엔진
+	@RequestMapping(value = "/printgame", method = RequestMethod.GET)
+	public @ResponseBody ArrayList<Game> printgame(String text){
+		System.out.println("목록 출력");
+		ArrayList<Game> typeList = usvc.getgameList(text);
+		return typeList;
+	}
+	//검색엔진 끝
 	@RequestMapping(value = "/printtag", method = RequestMethod.GET)
 	public @ResponseBody ArrayList<String> printTag(){
 		System.out.println("USERINFO CONTROLLER - 목록 출력");
@@ -200,5 +221,64 @@ public class UserInfoController {
 		System.out.println(checknum);
 		return checknum;
 	}
+	//쿠폰 끝
 	
+	
+	//프로필
+	@RequestMapping(value="/mproFile", method = RequestMethod.POST)
+	public ModelAndView mproFile(Member mem, HttpSession session, RedirectAttributes ra) throws IllegalStateException, IOException {
+		System.out.println("USERINFO CONTROLLER - 프로필 등록");
+		ModelAndView mav = new ModelAndView();
+
+		String mid = (String) session.getAttribute("loginId");
+		String mstate = "YP";
+		mem.setMid(mid);
+		mem.setMstate(mstate);
+		
+		System.out.println(mem);
+		
+		//프로필 인서트
+		int updateResult = usvc.updateFile(mem,session);
+		System.out.println(mem);
+			if(updateResult > 0) {
+				mav.setViewName("redirect:/mypage");
+				session.setAttribute("loginProfile", mem.getMprofile());
+				session.setAttribute("loginState", mem.getMstate());
+				ra.addFlashAttribute("msg", "프로필 등록 되었습니다.");
+			}
+			else {
+				mav.setViewName("redirect:/mypage");
+				ra.addFlashAttribute("msg", "프로필 등록 실패되었습니다.");
+			}
+		return mav;
+	}
+	//inquiryViewPage.jsp
+	@RequestMapping(value = "/inquiryView")
+	public ModelAndView boardView(String icode) {
+		System.out.println("문의 글 상세 보기 요청 - /inquiryView");
+		ModelAndView mav = new ModelAndView();
+		System.out.println("상세보기 글번호 : " + icode);
+		
+		//1.문의 정보 조회
+		Inquire inquire = usvc.getInquiryView(icode);
+		System.out.println(inquire);
+		
+		//2 문의 상세 페이지
+		mav.setViewName("userInfo/inquiryViewPage");
+		mav.addObject("inquire", inquire);
+		return mav;
+	}
+	//문의 답변
+	@RequestMapping(value="/inquiryAnswerWrite")
+	public @ResponseBody String inquiryAnswerWrite(Answer aw,HttpSession session) {
+		System.out.println("/replyWrite 요청");
+		//댓글 작성자 확인
+		String mid = (String)session.getAttribute("loginId");
+		aw.setAmid(mid); //문의 답변자 작성자 저장
+		int result = usvc.registAnswer(aw);
+		System.out.println(aw);
+		//문의 답변 테이블 만들어야함.
+		System.out.println(aw);
+		return result+"";
+	}
 }

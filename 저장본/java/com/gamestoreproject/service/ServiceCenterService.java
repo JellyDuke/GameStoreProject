@@ -5,14 +5,15 @@ import org.springframework.stereotype.Service;
 
 import com.gamestoreproject.controller.MainController;
 import com.gamestoreproject.dao.UserInfoDao;
+import com.gamestoreproject.dto.Answer;
 import com.gamestoreproject.dto.Inquire;
 
 @Service
 public class ServiceCenterService {
 	@Autowired
-	private UserInfoDao id;
+	private UserInfoDao udao;
 	@Autowired
-	private MainController ms;
+	private MainController mc;
 	
 	public String genCode(String maxIcode) {
 		System.out.println("genCode() 호출 : " + maxIcode);
@@ -27,11 +28,9 @@ public class ServiceCenterService {
 	
 	public int registInquiry(Inquire in) {
 		System.out.println("ServiceCenterService - registInquiry");
-		ms.registGenCode(in);
+		mc.registGenCode(in);
 		System.out.println(in);
-		return id.insertInquiry(in);
+		return udao.insertInquiry(in);
 	}
-
-
 
 }

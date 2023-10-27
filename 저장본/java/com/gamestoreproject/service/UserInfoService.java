@@ -1,31 +1,42 @@
 package com.gamestoreproject.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.gamestoreproject.controller.MainController;
 import com.gamestoreproject.dao.GameDao;
 import com.gamestoreproject.dao.UserInfoDao;
+import com.gamestoreproject.dto.Answer;
 import com.gamestoreproject.dto.Coupon;
+import com.gamestoreproject.dto.Game;
 import com.gamestoreproject.dto.Inquire;
+import com.gamestoreproject.dto.Member;
 
 @Service
 public class UserInfoService {
 	@Autowired
-	private UserInfoDao id;
+	private UserInfoDao udao;
 	@Autowired
 	private GameDao gdao;
 	private int authNumber;
+	@Autowired
+	private MainController mc;
 	
 	//문의 코드 시작
-	public ArrayList<Inquire> inquireList() {
+	public ArrayList<Inquire> inquireList(String mid) {
 		System.out.println("UserInfoService - inquireList");
-		return id.selectInquireList();
+		return udao.selectInquireList(mid);
 	}
-	
 	//문의 코드 끝
 	
 	//쿠폰 코드 시작
@@ -118,4 +129,60 @@ public class UserInfoService {
 		return gdao.checkcode(code, cowner);
 	}
 	//쿠폰 코드 끝
+
+	//게임 리스트 검색창 엔진
+	public ArrayList<Game> getgameList(String text) {
+		ArrayList<Game> gameInfo = gdao.getInfo(text);
+		ArrayList<Game> gInfo = new ArrayList<Game>();
+		for(Game gm : gameInfo) {			
+			System.out.println(gm.getGtag());
+			gm.setGsale(100-gm.getGsale()*100);
+			gInfo.add(gm);
+		}
+		//System.out.println(gInfo);
+		return gInfo;
+	}
+	//게임 리스트 끝
+	
+	
+	
+	public int updateFile(Member mem, HttpSession session) throws IllegalStateException, IOException {
+		MultipartFile bfile = mem.getBfile(); //첨부파일
+		String mprofile = ""; //파일명 저장할 변수
+		String savePath = session.getServletContext().getRealPath("/resources/memberprofile"); //파일 저장 경로
+		if(!bfile.isEmpty()) { //첨부파일 확인
+			//첨부파일이 있는 경우
+			System.out.println("첨부파일 있음");
+			
+			//임의코드 + img.jpg
+			UUID uuid = UUID.randomUUID();
+			String code = uuid.toString();
+			System.out.println("코드 확인 code: " + code);
+			mprofile = code + "_"+bfile.getOriginalFilename();
+			
+			//저장 경로 폴더에 첨부파일 저장
+			System.out.println("저장경로:" + savePath);
+			File newFile = new File(savePath,mprofile);
+			bfile.transferTo(newFile);
+		}
+		System.out.println("파일 이름: " + mprofile);
+		mem.setMprofile(mprofile);
+		System.out.println(mem); //프로필 확인
+		int result = 0;
+		return result = udao.updateFile(mem);
+	}
+
+	public Inquire getInquiryView(String icode) {
+		System.out.println("UserInfoService - getInquiryView");
+		Inquire inquire = udao.selectInquiry(icode);
+		return inquire;
+	}
+
+	public int registAnswer(Answer aw) {
+		System.out.println("UserInfoService - registAnswer");
+		mc.registGenCode(aw);
+		System.out.println(aw);
+		return udao.insertAnswer(aw);
+	}
+
 }

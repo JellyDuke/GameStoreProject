@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gamestoreproject.dao.UserInfoDao;
+import com.gamestoreproject.dto.Answer;
 import com.gamestoreproject.dto.Game;
 import com.gamestoreproject.dto.Inquire;
 import com.gamestoreproject.service.GameService;
@@ -20,7 +21,7 @@ public class MainController {
 	@Autowired
 	private GameService gsvc;
 	@Autowired
-	private ServiceCenterService scs;
+	private ServiceCenterService scsvc;
 	@Autowired
 	private UserInfoDao id;
 
@@ -55,8 +56,17 @@ public class MainController {
 		
 		//1. 문의 코드 생성('IC00001')
 		String maxIcode = id.selectMaxIcode();
-		String inCode = scs.genCode(maxIcode);
+		String inCode = scsvc.genCode(maxIcode);
 		in.setIcode(inCode);
+		
+		return null;
+	}
+	public String registGenCode(Answer aw) {
+		System.out.println("MAIN CONTROLLER - 문의답변코드 생성 - registGenCode");
+		//1. 문의 답변 코드 생성('AC00001')
+		String maxAcode = id.selectMaxAcode();
+		String inCode = scsvc.genCode(maxAcode);
+		aw.setAcode(inCode);
 		
 		return null;
 	}

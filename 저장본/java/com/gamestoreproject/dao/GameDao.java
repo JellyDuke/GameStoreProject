@@ -36,6 +36,9 @@ public interface GameDao {
 
 	int checkcode(@Param("code")String code, @Param("cowner")String cowner);
 	
+	//gameInfo
+	ArrayList<Game> getInfo(String text);
+	
 	//GAMELIST
 	ArrayList<Game> selectGameList(@Param("gameCount") int gameCount);
 
