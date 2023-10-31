@@ -9,14 +9,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gamestoreproject.dao.UserInfoDao;
 import com.gamestoreproject.dto.Inquire;
 import com.gamestoreproject.service.ServiceCenterService;
+import com.gamestoreproject.service.UserInfoService;
 
 @Controller
 public class ServiceCenterController {
 	
 	@Autowired
 	private ServiceCenterService scs;
+	@Autowired
+	private UserInfoService usvc;
+	
 	
 	@RequestMapping(value = "/serviceCenter", method = RequestMethod.GET)
 	public ModelAndView mypage(){
@@ -46,7 +51,7 @@ public class ServiceCenterController {
 			ra.addFlashAttribute("msg","로그인 후 이용 가능합니다.");
 		}else {
 			in.setImcode(writer);
-			int result = scs.registInquiry(in);
+			int result = usvc.registInquiry(in);
 		
 			if(result > 0 ) {
 				System.out.println("등록 성공");

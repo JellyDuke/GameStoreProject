@@ -22,6 +22,7 @@ import com.gamestoreproject.dto.Game;
 import com.gamestoreproject.dto.Inquire;
 import com.gamestoreproject.dto.Member;
 import com.gamestoreproject.service.UserInfoService;
+import com.google.gson.Gson;
 
 @Controller
 public class UserInfoController {
@@ -79,20 +80,7 @@ public class UserInfoController {
 		mav.setViewName("userInfo/paymentHistoryPage");
 		return mav;
 	}
-	@RequestMapping(value = "/inquiryHistory", method = RequestMethod.GET)
-	public ModelAndView inquiryHistory(HttpSession session){
-		System.out.println("USERINFO CONTROLLER - 문의 내역 리스트");
-		
-		ModelAndView mav = new ModelAndView();
-		String mid = (String) session.getAttribute("loginId");
-		
-		//1.문의 목록 조회
-		ArrayList<Inquire> inquireList = usvc.inquireList(mid);
-		mav.addObject("inquireList",inquireList);
-		
-		mav.setViewName("userInfo/inquiryHistoryPage");
-		return mav;
-	}
+	
 	//페이지 보기 끝
 	
 	
@@ -252,10 +240,25 @@ public class UserInfoController {
 			}
 		return mav;
 	}
+	//문의 관련
+	@RequestMapping(value = "/inquiryHistory", method = RequestMethod.GET)
+	public ModelAndView inquiryHistory(HttpSession session){
+		System.out.println("USERINFO CONTROLLER - 문의 내역 리스트");
+		
+		ModelAndView mav = new ModelAndView();
+		String mid = (String) session.getAttribute("loginId");
+		
+		//1.문의 목록 조회
+		ArrayList<Inquire> inquireList = usvc.inquireList(mid);
+		mav.addObject("inquireList",inquireList);
+		
+		mav.setViewName("userInfo/inquiryHistoryPage");
+		return mav;
+	}
 	//inquiryViewPage.jsp
 	@RequestMapping(value = "/inquiryView")
 	public ModelAndView boardView(String icode) {
-		System.out.println("문의 글 상세 보기 요청 - /inquiryView");
+		System.out.println("USERINFO CONTROLLER - 문의 글 상세 보기 요청");
 		ModelAndView mav = new ModelAndView();
 		System.out.println("상세보기 글번호 : " + icode);
 		
@@ -263,22 +266,45 @@ public class UserInfoController {
 		Inquire inquire = usvc.getInquiryView(icode);
 		System.out.println(inquire);
 		
-		//2 문의 상세 페이지
+		//2 문의 상세 페이지	
 		mav.setViewName("userInfo/inquiryViewPage");
 		mav.addObject("inquire", inquire);
 		return mav;
 	}
 	//문의 답변
 	@RequestMapping(value="/inquiryAnswerWrite")
-	public @ResponseBody String inquiryAnswerWrite(Answer aw,HttpSession session) {
-		System.out.println("/replyWrite 요청");
+	public @ResponseBody String inquiryAnswerWrite(String icode, String acomment,Answer aw, HttpSession session) {
+		System.out.println("USERINFO CONTROLLER - inquiryAnswerWrite");
+		aw.setIcode(icode);
+		aw.setAcomment(acomment);
+		
 		//댓글 작성자 확인
 		String mid = (String)session.getAttribute("loginId");
 		aw.setAmid(mid); //문의 답변자 작성자 저장
 		int result = usvc.registAnswer(aw);
-		System.out.println(aw);
-		//문의 답변 테이블 만들어야함.
+		
 		System.out.println(aw);
 		return result+"";
 	}
+	
+	@RequestMapping(value="/answersList")
+	public @ResponseBody String answerList(String icode) {
+		System.out.println("USERINFO CONTROLLER - answerList");
+		System.out.println("문의 조회 할 코드 : " + icode );
+
+		//1. service - 답변 목록 조회
+		ArrayList<Answer> answerList = usvc.getAnswerList(icode);
+		
+		//조회된 답변 목록 확인
+		System.out.println(answerList.size());
+		System.out.println(answerList);
+		
+		//2. JSON 변환 후 응답
+		//gson 사용 {key : value}
+		Gson gson = new Gson();
+		String awList = gson.toJson(answerList);
+		System.out.println("조회"+awList);
+		return awList;	
+	}
+	//문의 끝
 }

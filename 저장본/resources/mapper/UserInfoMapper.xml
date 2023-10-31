@@ -34,4 +34,14 @@
 	<select id="selectInquiry" resultType="com.gamestoreproject.dto.Inquire">
 		SELECT * FROM INQUIRES WHERE ICODE = #{icode}
 	</select>
+	
+	<insert id="insertAnswer">
+		INSERT INTO ANSWERS(ACODE, ICODE, AMID, ACOMMENT, ADATE, ASTATE)
+		VALUES(#{aw.acode}, #{aw.icode}, #{aw.amid}, #{aw.acomment}, SYSDATE, '1')
+	</insert>
+	
+	<select id="selectAnswerList">
+		SELECT * FROM ANSWERS WHERE ICODE = #{icode} AND ASTATE = '1' ORDER BY ADATE
+	</select>
+	
 </mapper>

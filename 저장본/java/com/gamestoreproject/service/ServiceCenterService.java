@@ -15,22 +15,15 @@ public class ServiceCenterService {
 	@Autowired
 	private MainController mc;
 	
-	public String genCode(String maxIcode) {
-		System.out.println("genCode() 호출 : " + maxIcode);
+	public String genCode(String maxAcode) {
+		System.out.println("genCode() 호출 : " + maxAcode);
 		
-		String strCode = maxIcode.substring(0, 2);
-		int numCode = Integer.parseInt(maxIcode.substring(2)); 
+		String strCode = maxAcode.substring(0, 2);
+		int numCode = Integer.parseInt(maxAcode.substring(2)); 
 
 		String newCode = strCode + String.format("%05d", numCode + 1);
 		
 		return newCode;
 	}
 	
-	public int registInquiry(Inquire in) {
-		System.out.println("ServiceCenterService - registInquiry");
-		mc.registGenCode(in);
-		System.out.println(in);
-		return udao.insertInquiry(in);
-	}
-
 }

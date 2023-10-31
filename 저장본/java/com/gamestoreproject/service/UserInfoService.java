@@ -32,12 +32,7 @@ public class UserInfoService {
 	@Autowired
 	private MainController mc;
 	
-	//문의 코드 시작
-	public ArrayList<Inquire> inquireList(String mid) {
-		System.out.println("UserInfoService - inquireList");
-		return udao.selectInquireList(mid);
-	}
-	//문의 코드 끝
+	
 	
 	//쿠폰 코드 시작
 	public ArrayList<String> getTypeList(String text) {
@@ -172,17 +167,33 @@ public class UserInfoService {
 		return result = udao.updateFile(mem);
 	}
 
+	//문의 코드 시작
 	public Inquire getInquiryView(String icode) {
 		System.out.println("UserInfoService - getInquiryView");
 		Inquire inquire = udao.selectInquiry(icode);
 		return inquire;
 	}
 
+	public ArrayList<Inquire> inquireList(String mid) {
+		System.out.println("UserInfoService - inquireList");
+		return udao.selectInquireList(mid);
+	}
+	public int registInquiry(Inquire in) {
+		System.out.println("UserInfoService - registInquiry");
+		mc.registGenCode(in);
+		System.out.println(in);
+		return udao.insertInquiry(in);
+	}
 	public int registAnswer(Answer aw) {
 		System.out.println("UserInfoService - registAnswer");
-		mc.registGenCode(aw);
+		mc.registIcCode(aw);
 		System.out.println(aw);
 		return udao.insertAnswer(aw);
 	}
+	public ArrayList<Answer> getAnswerList(String icode) {
+		System.out.println("UserInfoService - getAnswerList");
+		return udao.selectAnswerList(icode);
+	}
+	//문의 코드 끝
 
 }

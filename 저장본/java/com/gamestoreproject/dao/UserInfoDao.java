@@ -28,6 +28,10 @@ public interface UserInfoDao {
 	String selectMaxAcode();
 
 	//문의 답변 저장
-	int insertAnswer(Answer aw);
+	int insertAnswer(@Param("aw")Answer aw);
+
+	//문의 답변 조회
+	ArrayList<Answer> selectAnswerList(String icode);
+
 
 }

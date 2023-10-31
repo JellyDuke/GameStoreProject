@@ -66,6 +66,9 @@
     			max-height: 500px;
     			min-height: 500px;
     		}
+    		.table_div::-webkit-scrollbar {
+  				display: none;
+    		}
     		.table_th{
     			height: 100px;
     			width: 225px;

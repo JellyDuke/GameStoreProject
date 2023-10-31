@@ -49,8 +49,13 @@
     		}
     		.info_area{
     			width: 800px;
-    			height: 660px;
+    			height: 720px;
     			margin: 0 auto;
+    			max-height: 760px;
+    			overflow: scroll;
+    		}
+    		.info_area::-webkit-scrollbar {
+  				display: none;
     		}
     		.background{
 	    		position: absolute;
@@ -118,6 +123,45 @@
         	height: 300px;
         	border: solid 1px black;
         	}
+        	div.replyArea{
+			border: 3px solid black;
+			border-radius: 10px;
+			width: 500px;
+			margin: 0 auto;
+			padding:15px;
+		}
+		
+		.inquiryWrite textarea{
+			border-radius: 7px;
+			width: 93%;
+			min-height: 70px;
+			font-family: auto;
+			resize: none;
+			padding: 8px;
+		}
+		.inquiryWrite button{
+			width: 98%;
+			margin-top: 5px;
+			cursor: pointer;
+			padding: 5px;
+		}
+   		.answer{
+   			display : flex;
+   			
+   		}
+   		.answer>p{
+   			padding: 0;
+   			margin: 5px;
+   		}
+   		.acomm{
+   			margin-top: 5px;
+   			border-radius: 7px;
+			width: 93%;
+			min-height: 70px;
+			font-family: auto;
+			resize: none;
+			padding: 8px;
+   		}
 	</style>
     <body>
         <!-- 메뉴 -->
@@ -133,20 +177,21 @@
 						<div class="select_div">문의 사항</div>	
 	            	</div>
 	            	<div class="mt-3 comment_info">
+							
 		            	<div class="formInput">
-		            		<input type="text" class="ititle" name="ititle" placeholder="${inquire.ititle }" disabled="disabled">
+		            		<input type="text" class="ititle" name="ititle" value="문의 제목 : ${inquire.ititle }                         문의 등록 시간: ${inquire.idate }" disabled="disabled">
 		            	</div>
 		            	<div class="formInput">
-		            		<input type="text" class="icontent" name="icontent" placeholder="${inquire.icontent }" disabled="disabled">
+		            		<input type="text" class="icontent" name="icontent" value="문의 내용: ${inquire.icontent }" disabled="disabled">
 		            	</div>
 		            <%-- 문의답변 시작 --%>
 	                <hr>
 	             	<div clas="inquiryArea">
-	             		${ sessionScope.loginId}
+	             		${ sessionScope.loginId} ${inquire.icode}
 	             		<c:if test="${sessionScope.loginId != null }">
 	             		
 	             		<div class="inquiryWrite">
-	             		<h3>문의 작성 양식 - 로그인한 경우 출력</h3>
+	             		<h3>문의 답변 - 로그인한 경우 출력</h3>
 	             		<form onsubmit="return inquiryWrite(this)">
 	             			<input type="hidden" name="acode" value="${inquire.icode}">
 	             			<textarea  name="acomment" placeholder="문의 내용 작성"></textarea>
@@ -184,21 +229,88 @@
 				alert(msg);
 			}
 	</script>
-	<!-- 문의 답변 등록 -->
+	<!-- 문의 답변 등록 -->	
 	<script type="text/javascript">
 		function inquiryWrite(formObj) {
-			console.log("inquiryWrite 호출 " + formObj.icode.value);
+			console.log("inquiryWrite 호출 " + formObj.acode.value);
 			//$.ajax({ 문의 답변 요청 전송})
 			$.ajax({
 				type: "get",
 				url : "inquiryAnswerWrite",
-				data: {"acode": formObj.acode.value,
+				data: {"icode": formObj.acode.value,
 					   "acomment": formObj.acomment.value},
 				success: function (result) {
 					console.log(result);
-					
+					if(result == "1"){
+						alert("문의 답변이 등록되었습니다.");
+						//문의 답변 조회
+						formObj.acomment.value = "";
+						getAnswersList(icode);
+					}else{
+						alert("문의 답변 등록이 실패하였습니다.");
+					}
+				}
+			});
+			return false;
+		}
+		//문의 답변 목록 조회 및 출력
+		function getAnswersList(acode){
+			console.log("getAnswersList() 호출");
+			console.log("문의 답변 조회 할 글번호 : " + icode);
+			
+			//>>ArrayList<Reply> >> JSON 변환 >> 페이지로
+			$.ajax({
+				type: "get",
+				url: "answersList",
+				data: {"icode" : icode},
+				dataType: "json", 
+				success : function(awList){
+					printAnswersList(awList); //댓글 출력 기능 호출
+					console.log(awList);
 				}
 			});
 		}
+	</script>
+	<script type="text/javascript">
+		let loginId = '${sessionScope.loginId}';
+		
+		//문의 출력 기능
+		function printAnswersList(awList) {
+			let awListDiv = document.querySelector("#inquiryList");
+			awListDiv.innerHTML = "";
+			
+			for(let awInfo of awList){
+				let aDiv = document.createElement('div');
+				awListDiv.appendChild(aDiv);
+				
+				let answerDiv = document.createElement('div');
+				answerDiv.classList.add('answer');
+				aDiv.appendChild(answerDiv);
+				
+				let aWriter = document.createElement('p');
+				aWriter.innerText = "작성자: "+awInfo.amid;
+				answerDiv.appendChild(aWriter);
+				
+				let aDate = document.createElement('p');
+				aDate.innerText = "작성일: "+awInfo.adate;
+				answerDiv.appendChild(aDate);
+				
+				let acomment = document.createElement('textarea');
+				aDiv.appendChild(acomment);
+				acomment.innerText = awInfo.acomment;
+				acomment.classList.add('acomm');
+				acomment.setAttribute('disabled','disabled');
+			
+				console.log(aDiv); 	
+			}
+			
+		}
+	</script>
+	
+	<script type="text/javascript">
+		let icode = '${inquire.icode}';
+		$(document).ready(function() {
+			getAnswersList(icode);
+		});
 	</script>
 </html>

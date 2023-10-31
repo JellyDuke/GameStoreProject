@@ -61,13 +61,14 @@ public class MainController {
 		
 		return null;
 	}
-	public String registGenCode(Answer aw) {
-		System.out.println("MAIN CONTROLLER - 문의답변코드 생성 - registGenCode");
-		//1. 문의 답변 코드 생성('AC00001')
-		String maxAcode = id.selectMaxAcode();
-		String inCode = scsvc.genCode(maxAcode);
-		aw.setAcode(inCode);
+	public String registIcCode(Answer aw) {
+		System.out.println("MAIN CONTROLLER - 문의코드 생성 - registGenCode");
 		
+		//1. 답변 ac코드 생성
+		String maxAcode = id.selectMaxAcode();
+		String ACode = scsvc.genCode(maxAcode);
+		aw.setAcode(ACode);
+		System.out.println("코드 a"+aw.getAcode());
 		return null;
 	}
 }

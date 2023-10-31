@@ -65,6 +65,9 @@
     			overflow: scroll;
     			max-height: 620px;
     		}
+    		.table_div::-webkit-scrollbar {
+  				display: none;
+    		}
     		.table_th{
     			height: 100px;
     			width: 100px;
