@@ -241,18 +241,49 @@ public class UserInfoController {
 		return mav;
 	}
 	//문의 관련
+	@RequestMapping(value = "/inquiryWrite", method = RequestMethod.POST)
+	public ModelAndView inquiryWrite(Inquire in, HttpSession session, RedirectAttributes ra){
+		System.out.println("ServiceCenterController - 문의 등록 요청");
+		ModelAndView mav = new ModelAndView();
+		
+		String writer = (String) session.getAttribute("loginId");
+		String nickname = (String) session.getAttribute("loginMnickname");
+		
+		if(writer == null) {
+			mav.setViewName("redirect:/loginpage"); //성공 후 내 문의 내역으로 보내주기.
+			ra.addFlashAttribute("msg","로그인 후 이용 가능합니다.");
+		}else {
+			in.setImcode(writer);
+			in.setInickname(nickname);
+			int result = usvc.registInquiry(in);
+			
+			System.out.println(in);
+			if(result > 0 ) {
+				System.out.println("등록 성공");
+				mav.setViewName("redirect:/"); //성공 후 내 문의 내역으로 보내주기.
+				ra.addFlashAttribute("msg","글 등록 성공");
+			}else {
+				System.out.println("등록 실패");
+				mav.setViewName("redirect:/inquiry"); //실패 후 다시 작성
+				ra.addFlashAttribute("msg","글등록 실패");
+			}
+		}
+		return mav;
+	}
 	@RequestMapping(value = "/inquiryHistory", method = RequestMethod.GET)
-	public ModelAndView inquiryHistory(HttpSession session){
+	public ModelAndView inquiryHistory(HttpSession session, Inquire inquire){
 		System.out.println("USERINFO CONTROLLER - 문의 내역 리스트");
 		
 		ModelAndView mav = new ModelAndView();
 		String mid = (String) session.getAttribute("loginId");
-		
+		ArrayList<Inquire> inquireList = null;
 		//1.문의 목록 조회
-		ArrayList<Inquire> inquireList = usvc.inquireList(mid);
-		mav.addObject("inquireList",inquireList);
+		inquireList = usvc.inquireList(mid);
+		System.out.println(inquireList);
 		
+		mav.addObject("inquireList",inquireList);
 		mav.setViewName("userInfo/inquiryHistoryPage");
+			
 		return mav;
 	}
 	//inquiryViewPage.jsp
@@ -266,7 +297,6 @@ public class UserInfoController {
 		Inquire inquire = usvc.getInquiryView(icode);
 		System.out.println(inquire);
 		
-		//2 문의 상세 페이지	
 		mav.setViewName("userInfo/inquiryViewPage");
 		mav.addObject("inquire", inquire);
 		return mav;
@@ -275,23 +305,21 @@ public class UserInfoController {
 	@RequestMapping(value="/inquiryAnswerWrite")
 	public @ResponseBody String inquiryAnswerWrite(String icode, String acomment,Answer aw, HttpSession session) {
 		System.out.println("USERINFO CONTROLLER - inquiryAnswerWrite");
+		String mid = (String)session.getAttribute("loginId");
 		aw.setIcode(icode);
 		aw.setAcomment(acomment);
-		
-		//댓글 작성자 확인
-		String mid = (String)session.getAttribute("loginId");
+
 		aw.setAmid(mid); //문의 답변자 작성자 저장
-		int result = usvc.registAnswer(aw);
+		int result = usvc.registAnswer(aw,icode);
 		
-		System.out.println(aw);
 		return result+"";
 	}
 	
 	@RequestMapping(value="/answersList")
-	public @ResponseBody String answerList(String icode) {
+	public @ResponseBody String answerList(String icode,Inquire inquire, Answer answer, HttpSession session) {
 		System.out.println("USERINFO CONTROLLER - answerList");
 		System.out.println("문의 조회 할 코드 : " + icode );
-
+		
 		//1. service - 답변 목록 조회
 		ArrayList<Answer> answerList = usvc.getAnswerList(icode);
 		

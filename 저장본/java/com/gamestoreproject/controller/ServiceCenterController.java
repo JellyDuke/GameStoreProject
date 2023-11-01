@@ -39,30 +39,4 @@ public class ServiceCenterController {
 		mav.setViewName("serviceCenter/inquiryPage");
 		return mav;
 	}
-	@RequestMapping(value = "/inquiryWrite", method = RequestMethod.POST)
-	public ModelAndView inquiryWrite(Inquire in, HttpSession session, RedirectAttributes ra){
-		System.out.println("ServiceCenterController - 문의 등록 요청");
-		ModelAndView mav = new ModelAndView();
-		
-		String writer = (String) session.getAttribute("loginId");
-		
-		if(writer == null) {
-			mav.setViewName("redirect:/loginpage"); //성공 후 내 문의 내역으로 보내주기.
-			ra.addFlashAttribute("msg","로그인 후 이용 가능합니다.");
-		}else {
-			in.setImcode(writer);
-			int result = usvc.registInquiry(in);
-		
-			if(result > 0 ) {
-				System.out.println("등록 성공");
-				mav.setViewName("redirect:/"); //성공 후 내 문의 내역으로 보내주기.
-				ra.addFlashAttribute("msg","글 등록 성공");
-			}else {
-				System.out.println("등록 실패");
-				mav.setViewName("redirect:/inquiry"); //실패 후 다시 작성
-				ra.addFlashAttribute("msg","글등록 실패");
-			}
-		}
-		return mav;
-	}
 }

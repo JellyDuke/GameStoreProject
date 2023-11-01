@@ -173,7 +173,6 @@ public class UserInfoService {
 		Inquire inquire = udao.selectInquiry(icode);
 		return inquire;
 	}
-
 	public ArrayList<Inquire> inquireList(String mid) {
 		System.out.println("UserInfoService - inquireList");
 		return udao.selectInquireList(mid);
@@ -184,11 +183,17 @@ public class UserInfoService {
 		System.out.println(in);
 		return udao.insertInquiry(in);
 	}
-	public int registAnswer(Answer aw) {
+	public int registAnswer(Answer aw, String icode) {
 		System.out.println("UserInfoService - registAnswer");
 		mc.registIcCode(aw);
 		System.out.println(aw);
-		return udao.insertAnswer(aw);
+		int result = udao.insertAnswer(aw);
+		
+		String adate = udao.selectAdate(icode);
+		String acomment = aw.getAcomment();
+		System.out.println(adate+acomment);
+		int update = udao.updateInqueres(adate, acomment, icode);
+		return result;
 	}
 	public ArrayList<Answer> getAnswerList(String icode) {
 		System.out.println("UserInfoService - getAnswerList");

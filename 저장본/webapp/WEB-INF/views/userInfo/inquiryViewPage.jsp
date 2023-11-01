@@ -177,7 +177,6 @@
 						<div class="select_div">문의 사항</div>	
 	            	</div>
 	            	<div class="mt-3 comment_info">
-							
 		            	<div class="formInput">
 		            		<input type="text" class="ititle" name="ititle" value="문의 제목 : ${inquire.ititle }                         문의 등록 시간: ${inquire.idate }" disabled="disabled">
 		            	</div>
@@ -187,11 +186,9 @@
 		            <%-- 문의답변 시작 --%>
 	                <hr>
 	             	<div clas="inquiryArea">
-	             		${ sessionScope.loginId} ${inquire.icode}
-	             		<c:if test="${sessionScope.loginId != null }">
-	             		
+	             		<c:if test="${sessionScope.loginId == 'jinseoshin3@naver.com' }">
 	             		<div class="inquiryWrite">
-	             		<h3>문의 답변 - 로그인한 경우 출력</h3>
+	             		<h3>운영자 답변</h3>
 	             		<form onsubmit="return inquiryWrite(this)">
 	             			<input type="hidden" name="acode" value="${inquire.icode}">
 	             			<textarea  name="acomment" placeholder="문의 내용 작성"></textarea>
@@ -288,7 +285,7 @@
 				aDiv.appendChild(answerDiv);
 				
 				let aWriter = document.createElement('p');
-				aWriter.innerText = "작성자: "+awInfo.amid;
+				aWriter.innerText = "작성자: 운영자";
 				answerDiv.appendChild(aWriter);
 				
 				let aDate = document.createElement('p');

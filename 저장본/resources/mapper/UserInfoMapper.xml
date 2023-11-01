@@ -4,6 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gamestoreproject.dao.UserInfoDao">
+
+	<update id="updateFile">
+		update MEMBERS 
+		SET MPROFILE = #{mem.mprofile}, MSTATE = #{mem.mstate}
+		WHERE MID = #{mem.mid}
+	</update>
+	
 	<select id="selectMaxIcode">
 		SELECT NVL(MAX(ICODE),'IC00000')
 		FROM INQUIRES
@@ -15,24 +22,22 @@
 	</select>
 	
 	<insert id="insertInquiry">
-		INSERT INTO INQUIRES(ICODE,IMCODE,ICONTENT,IDATE,IREDATE,IRECONTENT,ITITLE)
-		VALUES(#{in.icode}, #{in.imcode}, #{in.icontent}, SYSDATE, '', '', #{in.ititle})
+		INSERT INTO INQUIRES(ICODE,IMCODE,ICONTENT,IDATE,IREDATE,IRECONTENT,ITITLE, INICKNAME)
+		VALUES(#{in.icode}, #{in.imcode}, #{in.icontent}, SYSDATE, '', '', #{in.ititle},#{in.inickname})
 	</insert>
 	
 	<select id="selectInquireList" resultType="com.gamestoreproject.dto.Inquire">
-		SELECT *
+		SELECT icode, imcode, icontent, TO_CHAR(idate,'YYYY-MM-DD') AS IDATE, TO_CHAR(IREDATE,'YYYY-MM-DD') AS IREDATE, IRECONTENT, ITITLE, INICKNAME
 		FROM INQUIRES
+		<if test="mid != 'jinseoshin3@naver.com'">
 		WHERE IMCODE = #{mid}
+		</if>	
 	</select>
 	
-	<update id="updateFile">
-		update MEMBERS 
-		SET MPROFILE = #{mem.mprofile}, MSTATE = #{mem.mstate}
-		WHERE MID = #{mem.mid}
-	</update>
-	
 	<select id="selectInquiry" resultType="com.gamestoreproject.dto.Inquire">
-		SELECT * FROM INQUIRES WHERE ICODE = #{icode}
+		SELECT icode, imcode, icontent, TO_CHAR(idate,'YYYY-MM-DD') AS IDATE, TO_CHAR(IREDATE,'YYYY-MM-DD') AS IREDATE, IRECONTENT, ITITLE, INICKNAME
+		FROM INQUIRES
+		WHERE ICODE = #{icode}
 	</select>
 	
 	<insert id="insertAnswer">
@@ -41,7 +46,21 @@
 	</insert>
 	
 	<select id="selectAnswerList">
-		SELECT * FROM ANSWERS WHERE ICODE = #{icode} AND ASTATE = '1' ORDER BY ADATE
+		SELECT * 
+		FROM ANSWERS 
+		WHERE ICODE = #{icode} AND ASTATE = '1' ORDER BY ADATE
 	</select>
+	
+	<select id="selectAdate">
+		SELECT TO_CHAR(MAX(ADATE),'YYYY-MM-DD')
+		FROM ANSWERS
+		WHERE ICODE = #{icode}
+	</select>
+	
+	<update id="updateInqueres">
+		UPDATE INQUIRES
+		SET IREDATE = #{iredate}, IRECONTENT = #{irecomment}
+		WHERE ICODE = #{icode}
+	</update>
 	
 </mapper>

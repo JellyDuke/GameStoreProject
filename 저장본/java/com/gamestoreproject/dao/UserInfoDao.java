@@ -12,6 +12,9 @@ public interface UserInfoDao {
 	//문의 코드 생성
 	String selectMaxIcode();
 	
+	//문의 답변 코드 생성
+	String selectMaxAcode();
+	
 	//문의 인서트
 	int insertInquiry(@Param("in")Inquire in);
 	
@@ -24,14 +27,17 @@ public interface UserInfoDao {
 	//문의 글 조회
 	Inquire selectInquiry(String icode);
 
-	//문의 답변 코드 생성
-	String selectMaxAcode();
-
 	//문의 답변 저장
 	int insertAnswer(@Param("aw")Answer aw);
 
 	//문의 답변 조회
 	ArrayList<Answer> selectAnswerList(String icode);
+	
+	//문의 날짜 조회
+	String selectAdate(String icode);
+	
+	//문의 내역 업데이트
+	int updateInqueres(@Param("iredate")String adate, @Param("irecomment")String acomment, @Param("icode")String icode);
 
 
 }

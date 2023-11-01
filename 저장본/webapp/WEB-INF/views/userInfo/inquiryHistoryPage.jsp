@@ -176,8 +176,8 @@
 	            		<div class="table_div w-100 h-100">
 							<table class="w-100 h-100">			
 								<thead>
-									<tr>
-										<td class="table_th">문의번호</td>
+									<tr style="height: 50px;">
+										<td class="table_th">문의코드</td>
 										<td class="table_bd">작성자</td>
 										<td class="table_bd">문의제목</td>
 										<td class="table_bd">문의 등록일</td>
@@ -185,11 +185,11 @@
 										<td class="table_bd">상태</td>
 									</tr>
 								</thead>								
-							<c:forEach items="${inquireList }" var="il">
 								<tbody>
-									<tr>
+							<c:forEach items="${inquireList }" var="il">
+									<tr style="height: 70px;">
 										<td>${il.icode }</td>
-										<td>${sessionScope.loginMnickname }</td>
+										<td>${il.inickname}</td>
 										<td><a href="${pageContext.request.contextPath}/inquiryView?icode=${il.icode }">${il.ititle }</a></td>
 										<td>${il.idate }</td>
 										<c:choose>
@@ -202,9 +202,10 @@
 												<td> 답변완료 </td>
 											</c:otherwise>
 										</c:choose>
-									</tr>	
-								</tbody>
+									</tr>
 							</c:forEach>
+									<tr style="height: auto;"></tr>
+								</tbody>
 							</table> 				       	
 	            		</div>
 	            	</div>
