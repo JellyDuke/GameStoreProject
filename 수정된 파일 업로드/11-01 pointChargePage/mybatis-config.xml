@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+  
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.gamestoreproject.dto.Coupon" alias="co"/>
+		<typeAlias type="com.gamestoreproject.dto.Game" alias="gm"/>
+		<typeAlias type="com.gamestoreproject.dto.Order" alias="od"/>
+		<typeAlias type="com.gamestoreproject.dto.Member" alias="mb"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="mapper/MemberMapper.xml"/>
+		<mapper resource="mapper/GameMapper.xml"/>
+		<mapper resource="mapper/UserInfoMapper.xml"/>
+		<mapper resource="mapper/OrderMapper.xml"/>
+	</mappers>
+	
+</configuration>
