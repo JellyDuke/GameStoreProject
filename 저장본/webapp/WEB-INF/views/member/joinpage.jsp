@@ -106,6 +106,8 @@
 		.join__field {
 		  padding: 20px 0px;  
 		  position: relative; 
+		  display: flex;
+		  width: 280px;
 		}
 		
 		.join__icon {
@@ -192,6 +194,22 @@
 		p{
 		font-size: 12px;
 		}
+		.btn-primary{
+		  background: #fff;
+		  font-size: 10px;
+		  padding: 7px 7px;
+		  border-radius: 26px;
+		  border: 1px solid #D4D3E8;
+		  text-transform: uppercase;
+		  font-weight: 20;
+		  display: flex;
+		  width: auto;
+		  color: #26292be3;
+		  box-shadow: 0px 2px 2px #3e1b5a;
+		  cursor: pointer;
+		  transition: .2s;
+		  margin-top: 10px;
+		}
         </style>
 
     </head>
@@ -200,7 +218,7 @@
         <div class="container">
 		  <div class="screen">
 		    <div class="screen__content">
-		      <form class="join" action="${pageContext.request.contextPath }/memberJoin" method="post" enctype="multipart/form-data"
+		      <form class="join" action="${pageContext.request.contextPath }/memberJoin" method="post" 
 				onsubmit="return formCheck(this)">
 				<p></p>
 		        <div class="join__field">
@@ -286,12 +304,15 @@
     	function idCheck(inputId){
 			// 중복 확인할 아이디 VALUE 확인
 			let idEl = document.querySelector('#inputId');
+			let doEl = document.querySelector('#domain');
 			console.log(idEl.value);
 			
 			// ajax - 아이디 중복 확인요청(memberIdCheck)
 			$.ajax( { type: "get", // 전송 방식
 					  url: "memberIdCheck", // 전송 URL
-					  data: { "inputId" : idEl.value}, // 전송 파라메터
+					  data: { "inputId" : idEl.value,
+						  	  "domain" : doEl.value
+						  }, // 전송 파라메터
 					  success: function(re){ // 전송에 성공했을 경우
 						  // re : 응답받은 데이터
 						  console.log("확인결과 : " + re);
@@ -358,7 +379,8 @@
         <script type="text/javascript">
         //비밀번호 유효성 검사
     	var pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-        function formCheck(formObj) {
+    	var nameCheck = /^[가-힣]*$/;
+       	function formCheck(formObj) {
         	console.log("formCheck()호출");
         	let idEl = formObj.inputId; //이메일
         	let mcEl = formObj.mcheck; //이메일 체크
@@ -367,6 +389,7 @@
     	    let nmEl = formObj.mname; //이름 
     	    let niEl = formObj.mnickname; //닉네임
     	    
+    	    
     	    //이메일 입력되지 않았으면 false;
     	    if(idEl.value == ""){
     	        alert("이메일을 입력해주세요!");
@@ -374,8 +397,8 @@
     	        return false;
     	    }
     	    //이메일 길이 체크
-    	    if(idEl.value.length > 51){
-    	        alert("이메일을 입력해주세요!");
+    	    if(idEl.value.length > 51 || idEl.value.length < 3){
+    	        alert("올바른 이메일 형식을 사용 해주세요!");
     	        idEl.focus();
     	        return false;
     	    }
@@ -394,7 +417,7 @@
     	   //이메일 인증 2중 체크
     	  	if(!checkCode.test(mcheck.value)){
     	  		alert("이메일 인증 유효성이 올바르지 않습니다.");
-    	        mpw.focus();
+    	  		mcEl.focus();
     	        return false;
     	  	}
     	    //비밀번호 체크
@@ -427,12 +450,18 @@
     	    	nmEl.focus();
     	    	return false;
     	    }
+    	    if(!nameCheck.test(mname.value)){
+    	    	alert("이름은 한글만 입력해 주세요!");
+    	    	idEl.focus();
+    	    	return false;
+    	    }
     	    //닉네임 입력 체크
     	    if(niEl.value.length == 0){
     	    	alert("닉네임을 써주세요!");
     	    	niEl.focus();
     	    	return false;
     	    }
+    	    //닉네임 길이 체크
     	    if(niEl.value.length > 13){
     	    	alert("닉네임 12글자 이내에 써주세요!");
     	    	niEl.focus();

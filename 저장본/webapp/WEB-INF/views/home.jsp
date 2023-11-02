@@ -117,7 +117,7 @@
 	<script src="resources/users/js/scripts.js"></script>
 	<!-- Jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </body>
 	<script type="text/javascript">
 		let msg = '${msg}';

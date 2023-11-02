@@ -322,7 +322,6 @@
 						  		success : function(checkMember_kakao){
 						  			
 						    		if(checkMember_kakao == 'Y'){
-						    			
 								   		alert('로그인 되었습니다.');
 								   		location.href="/";
 								   		

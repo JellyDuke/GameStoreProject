@@ -43,12 +43,15 @@ public class MemberController {
 		return mav;
 	}
 	@RequestMapping(value="/memberIdCheck")
-	public @ResponseBody String memIdCheck(String inputId) {
+	public @ResponseBody String memIdCheck(String inputId, String domain) {
 		System.out.println("MEMBER CONTROLLER - memberIdCheck");
 		
 		System.out.println("iputId : " + inputId);
+		System.out.println("do"+domain);
+			
+		String id = inputId + domain;
 		
-		String checkResult = msvc.midCheck(inputId);
+		String checkResult = msvc.midCheck(id);
 		
 		return checkResult;
 	}
@@ -64,7 +67,7 @@ public class MemberController {
 			int joinResult = msvc.memJoin(mem,session);
 			
 			if(joinResult > 0) {
-				mav.setViewName("member/loginPage");
+				mav.setViewName("redirect:/loginpage");
 				ra.addFlashAttribute("msg", "회원가입 되었습니다.");
 			}else {
 				System.out.println("가입 실패");
