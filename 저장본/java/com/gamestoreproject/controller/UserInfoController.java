@@ -21,6 +21,7 @@ import com.gamestoreproject.dto.Coupon;
 import com.gamestoreproject.dto.Game;
 import com.gamestoreproject.dto.Inquire;
 import com.gamestoreproject.dto.Member;
+import com.gamestoreproject.dto.Order;
 import com.gamestoreproject.service.UserInfoService;
 import com.google.gson.Gson;
 
@@ -226,7 +227,7 @@ public class UserInfoController {
 		System.out.println(mem);
 		
 		//프로필 인서트
-		int updateResult = usvc.updateFile(mem,session);
+		int updateResult = usvc.updateFile(mem,session, ra);
 		System.out.println(mem);
 			if(updateResult > 0) {
 				mav.setViewName("redirect:/mypage");
@@ -335,4 +336,32 @@ public class UserInfoController {
 		return awList;	
 	}
 	//문의 끝
+	
+	//결제
+	@RequestMapping(value="/pointrechargepage",method = RequestMethod.GET)
+	public ModelAndView pointrechargepage(HttpSession session) {
+		System.out.println("USERINFO CONTROLLER - 포인트 충전 페이지");
+		ModelAndView mav = new ModelAndView();
+		String mid = (String) session.getAttribute("loginId");
+		if(mid.length()==0) {
+			mav.setViewName("redirect:/loginpage");
+			return mav;
+		}
+		String memUsedPoint = usvc.getMemUsedPoint(mid);
+		String memTotalPoint = usvc.getMemTotalPoint(mid);
+		String memPoint = usvc.getMemPoint(mid);
+		ArrayList<Order> memOrder = usvc.getMemOrder(mid);
+		for(Order mo : memOrder) {
+			mo.setOdate(mo.getOdate().substring(0,10));
+		}
+		String mnickname = usvc.getMNick(mid);
+		mav.addObject("mid", mnickname);
+		mav.addObject("morder", memOrder);
+		mav.addObject("mupoint", memUsedPoint);
+		mav.addObject("mtpoint", memTotalPoint);
+		mav.addObject("mpoint", memPoint);
+		mav.setViewName("payment/pointRechargePage");
+		return mav;
+	}
+	//결제끝
 }

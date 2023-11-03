@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gamestoreproject.controller.MainController;
 import com.gamestoreproject.dao.GameDao;
@@ -21,6 +22,7 @@ import com.gamestoreproject.dto.Coupon;
 import com.gamestoreproject.dto.Game;
 import com.gamestoreproject.dto.Inquire;
 import com.gamestoreproject.dto.Member;
+import com.gamestoreproject.dto.Order;
 
 @Service
 public class UserInfoService {
@@ -141,7 +143,7 @@ public class UserInfoService {
 	
 	
 	
-	public int updateFile(Member mem, HttpSession session) throws IllegalStateException, IOException {
+	public int updateFile(Member mem, HttpSession session,RedirectAttributes ra) throws IllegalStateException, IOException {
 		MultipartFile bfile = mem.getBfile(); //첨부파일
 		String mprofile = ""; //파일명 저장할 변수
 		String savePath = session.getServletContext().getRealPath("/resources/memberprofile"); //파일 저장 경로
@@ -164,7 +166,12 @@ public class UserInfoService {
 		mem.setMprofile(mprofile);
 		System.out.println(mem); //프로필 확인
 		int result = 0;
-		return result = udao.updateFile(mem);
+		try {
+			result = udao.updateFile(mem);
+		} catch (Exception e) {
+			System.out.println("이상한 프로필");
+		}
+		return result;
 	}
 
 	//문의 코드 시작
@@ -201,4 +208,29 @@ public class UserInfoService {
 	}
 	//문의 코드 끝
 
+	//결제 코드 시작
+	public int getprice(String text) {
+		return gdao.getprice(text);
+	}
+
+	public String getMemPoint(String mid) {
+		return gdao.getMemPoint(mid);
+	}
+
+	public String getMemTotalPoint(String mid) {
+		return gdao.getTotalMemPoint(mid);
+	}
+
+	public String getMemUsedPoint(String mid) {
+		return gdao.getMemUsedPoint(mid);
+	}
+
+	public ArrayList<Order> getMemOrder(String mid) {
+		return gdao.getMemOrder(mid);
+	}
+
+	public String getMNick(String mid) {
+		return gdao.getMNick(mid);
+	}
+	//끝
 }

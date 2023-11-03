@@ -191,7 +191,7 @@
 							</tr>
 							<tr>
 								<th class="table_th">포인트</th>
-								<td class="table_bd"> <span>${sessionScope.loginPoint }</span> <button style="margin-left: 10px;" onclick="chargepoint(this)">충전</button> </td>
+								<td class="table_bd"> <span>${sessionScope.loginPoint }</span> <button style="margin-left: 10px;" onclick="location.href='${pageContext.request.contextPath }/pointrechargepage'">충전</button> </td>
 							</tr>
 							<tr>
 								<th class="table_th">가입일</th>

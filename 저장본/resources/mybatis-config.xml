@@ -8,11 +8,14 @@
 	<typeAliases>
 		<typeAlias type="com.gamestoreproject.dto.Coupon" alias="co"/>
 		<typeAlias type="com.gamestoreproject.dto.Game" alias="gm"/>
+		<typeAlias type="com.gamestoreproject.dto.Order" alias="od"/>
+		<typeAlias type="com.gamestoreproject.dto.Member" alias="mb"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mapper/MemberMapper.xml"/>
 		<mapper resource="mapper/GameMapper.xml"/>
 		<mapper resource="mapper/UserInfoMapper.xml"/>
+		<mapper resource="mapper/OrderMapper.xml"/>
 	</mappers>
 	
 </configuration>

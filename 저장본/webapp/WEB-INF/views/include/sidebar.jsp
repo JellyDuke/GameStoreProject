@@ -115,7 +115,7 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="${pageContext.request.contextPath }/pointrechargepage">
           <span class="icon"><ion-icon name="cash-outline"></ion-icon></span>
           <span class="text">포인트 충전</span>
         </a>

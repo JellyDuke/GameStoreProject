@@ -21,11 +21,11 @@
              }
              
              .game_title {
+             	font-weight: bold;
              	margin: 20px 0;
              }
              
              .game_mainImage{
-             	border: 1px solid black;
              	border-radius: 5px;
              	margin: 10px 0;
              	min-height: 400px;
@@ -46,16 +46,37 @@
              	overflow: scroll;
              }
              
-             .game_imagese {
-             	border: 1px solid black;
-             	border-radius: 5px;
+             .game_imageDiv {
              	margin: 0 5px;
              	width: 200px;
+             	cursor: pointer;
+             }
+             
+             .game_imageDiv_focus {
+             	border: 3px solid deepskyblue;
+    			border-radius: 10px;
+             }
+             
+             .playButton {
+             	position: relative;
+             	background: none;
+             }
+             
+             .playIcon {
+             	position: absolute;
+             	left: 70px;
+    			bottom: 35px;
+             	font-size: 60px;
+    			color: white;
+             }
+             
+             .game_image {
+             	border-radius: 10px;
+             	width: 100%;
+             	height: 100%;
              }
              
              .game_smallImage {
-             	border: 1px solid black;
-             	border-radius: 5px;
              	margin: 10px 0;
              	min-height: 150px;
              }
@@ -63,52 +84,76 @@
              .game_smallInfo {
              	border: 1px solid black;
              	border-radius: 5px;
-             	min-height: 405px;
+             	min-height: 452px;
              }
              
-             .top_bar {
-             	border: 1px solid black;
-             	border-radius: 5px;
-             	margin-right: auto;
-			    margin-left: auto;
-             	width: 70%;
-             	height: 70px;
-             	display: flex;
-             	--bs-gutter-x: 1.5rem;
-			    --bs-gutter-y: 0;
-			    
+             .game_info_head {
+             	margin: 0;
+             	font-weight: bold;
+    			font-size: 20px;
              }
              
              .game_price {
-             	border: 1px solid black;
-             	border-radius: 5px;
-             	min-width: 200px;
-             	height: 50px;
+             	font-size: 25px;
+    			font-weight: bold;
              }
              
-             .add_game {
-             	border: 1px solid black;
-             	border-radius: 5px;
-             	width: 150px;
-             	height: 50px;
-             	margin-left: 50px;
+             .game_price_small {
+             	text-decoration: line-through;
+			    font-size: 20px;
+			    font-weight: bold;
+			    color: gray;
              }
              
-             .game_content {
+             .game_price_big {
+             	font-size: 27px;
+			    font-weight: bold;
+			    color: limegreen;
+             }
+             
+             .addBasket_Button {
+             	border: none;
+             	border-radius: 10px;
+             	padding: 15px;
+             	width: 70%;
+             	background-color: antiquewhite;
+             }
+             
+             .game_contentDiv {
              	border: 1px solid black;
              	border-radius: 5px;
 			    width: 50%;
-			    min-height: 300px;
+			    min-height: 250px;
 			    margin-right: auto;
 			    margin-left: auto;
              	--bs-gutter-x: 1.5rem;
 			    --bs-gutter-y: 0;
              }
              
+             .gameContent_head {
+             	border: 1px solid black;
+             	border-radius: 15px;
+             	text-align: center;
+			    font-size: 20px;
+			    margin-bottom: 15px;
+             }
+             
+             .gameContent {
+             	font-weight: bold;
+             	margin-top: 10px;
+             	margin-bottom: 10px;
+             }
+             
+             .gameSystemDiv {
+             	margin-top: 15px;
+             	margin-left: auto;
+    			margin-right: auto;
+             }
+             
              .reviewDiv {
              	border: 1px solid black;
              	border-radius: 5px;
-             	width: 60%;
+             	width: 50%;
              	min-height: 200px;
 			    margin-right: auto;
 			    margin-left: auto;
@@ -117,10 +162,14 @@
              }
              
              .review_profile {
-             	border: 1px solid black;
-             	border-radius: 5px;
              	width: 150px;
              	height: 150px;
+             }
+             
+             .profile_image {
+             	border-radius: 7px;
+             	width: 100%;
+             	height: 100%;
              }
              
              .review_info {
@@ -134,12 +183,21 @@
              }
              
              .review_content {
-             	width: 500px;
 			    min-height: 110px;
 			    resize: none;
              }
              
-             
+             .myReview {
+             	border: 1px solid black;
+			    border-radius: 10px;
+			    width: 20%;
+			    height: 80%;
+			    display: flex;
+			    align-items: center;
+			    justify-content: center;
+			    text-align: center;
+			    font-weight: bold;
+             }
              
 			.wrap{
 				border: 1px solid black;
@@ -150,9 +208,9 @@
 			    margin: 0 auto; /* 화면 가운데로 */
 			    background-color: #fff;
 			    box-sizing: border-box;
-			
 			}
 			.reviewform textarea{
+				resize: none;
 			    width: 100%;
 			    padding: 10px;
 			    box-sizing: border-box;
@@ -176,11 +234,12 @@
 			    z-index: 10;
 			    width: 60px;
 			    height: 60px;
-			    background-image: url('/resources/users/assets/starrate.png');
+			    background-image: url('/resources/images/starrate.png');
 			    background-repeat: no-repeat;
 			    background-size: 60px 60px;
 			    cursor: pointer;
 			    background-color: #f0f0f0;
+			    caret-color: transparent;
 			}
 			.rating .rate_radio:checked + label {
 			    background-color: #ff8;
@@ -208,8 +267,27 @@
 				font-weight: bold;
 			}
 			
+			.likeButton {
+				width: 200px;
+			    border-radius: 15px;
+			    background-color: azure;
+			}
+			
+			.reviewModify_Button {
+				width: 100px;
+			    border-radius: 15px;
+			    background-color: bisque;
+			}
+			
+			.reviewDelete_Button {
+				width: 100px;
+			    border-radius: 15px;
+			    background-color: orangered;
+			}
+			
         </style>
         
+        <script src="https://kit.fontawesome.com/b213412e2c.js" crossorigin="anonymous"></script>
     </head>
     
     <body>
@@ -218,213 +296,303 @@
         
         <!-- contents start -->
         <div class="container game_head">
-       		<h2 class="game_title">게임 제목</h2>
+       		<h1 class="game_title">${game.gname }</h1>
+       		<p id="gameCode" hidden="hidden">${game.gcode }</p>
             <div class="row content_Div">
             	<div class="col-lg-8">
             		<div class="game_mainImage">
-            			사진
+            			<video id="gameVideo" class="game_image" src="${game.gvideo }" controls muted autoplay loop>
+				        	<source type="video/mp4">
+				        </video>
+				        <img id="gameImg" alt="게임 이미지" src="" class="d-none game_image">
             		</div>
             		<div class="game_list">
             			<div class="list_image">
-            				<div class="game_imagese">동영상</div>
-            				<div class="game_imagese">이미지2</div>
-            				<div class="game_imagese">이미지3</div>
-            				<div class="game_imagese">이미지4</div>
-            				<div class="game_imagese">이미지5</div>
-            				<div class="game_imagese">이미지6</div>
-            				<div class="game_imagese">이미지7</div>
-            				<div class="game_imagese">이미지8</div>
+            				<div class="game_imageDiv game_imageDiv_focus" onclick="img_click(this)">
+            					<span class="playButton"><i class="fa-regular fa-circle-play playIcon"></i></span>
+            					<video class="game_image" onclick="showVideo()" src="${game.gvideo }">
+						        </video>
+            				</div>
+            				<c:forEach items="${gameImgs }" var="gameImg">
+            					<div class="game_imageDiv" onclick="img_click(this)">
+	            					<img alt="게임 이미지" src="${gameImg }" class="game_image" onclick="showImg(this)">
+            					</div>
+            				</c:forEach>
             			</div>
             		</div>
             	</div>
             	
             	<div class="col-lg-4">
             		<div class="game_smallImage">
-            			사진
+            			<img alt="게임 대표 이미지" src="${game.gmainimg }" class="game_image">
             		</div>
-            		<div class="game_smallInfo">
-            			간단한 설명 및 태그
+            		<div class="game_smallInfo p-3">
+            			<p class="game_info_head">장르</p>
+            			<p>${game.gtag }</p>
+            			
+            			<p class="game_info_head">제작사</p>
+            			<p>${game.gmaker }</p>
+            			
+            			<p class="game_info_head">배급사</p>
+            			<p>${game.gpublisher }</p>
+            			
+            			<p class="game_info_head">출시일</p>
+            			<p class="m-0">${game.grelease }</p>
+            			
+            			<div class="my-4">
+	            			<div class="d-flex align-items-center justify-content-center">
+	            				<c:choose>
+	            					<c:when test="true">
+			            				<p class="game_price_big mx-3">\ ${game.gprice / 100 * (80 - 20)}</p>
+				            			<p class="game_price_small mx-3">\ ${game.gprice }</p>
+	            					</c:when>
+	            					
+	            					<c:otherwise>
+	            						<p class="game_price ">\ ${game.gprice }</p>
+	            					</c:otherwise>
+	            				</c:choose>
+	            			</div>
+	            			
+	            			<div class="d-flex align-items-center justify-content-center">
+		            			<button class="addBasket_Button" onclick="addBasket('${game.gcode}', '${sessionScope.loginId }')">장바구니에 추가</button>            			
+	            			</div>
+            			</div>
             		</div>
             	</div>
             	
             </div>
         </div>
         
-        <div class="top_bar text-center d-flex align-items-center justify-content-center mt-3">
-            <div class="game_price d-flex align-items-center justify-content-center">할인/가격</div>
-            <div class="add_game d-flex align-items-center justify-content-center">장바구니에 추가</div>
-        </div>
-        
-        <div class="game_content d-flex justify-content-center p-3 px-5 mt-3">
-            <div class="d-flex justify-content-center w-100 p-2">
-            	게임 설명
+        <div class="game_contentDiv d-flex justify-content-center p-3 px-5 mt-3">
+            <div class="w-100 p-2">
+            	<div class="gameContent_head">
+	            	게임 설명
+            	</div>
+            	<div class="gameContent">
+            		${game.gcontent.split("게임에 대해")[1] }
+            	</div>
             </div>
         </div>
         
-        <div class="game_content d-flex justify-content-center p-3 px-5 mt-3 w-75">
-            <div class="d-flex justify-content-center w-50 p-2">
-            	최소 시스템 요구사항
-            </div>
-            <div class="d-flex justify-content-center w-50 p-2">
-            	권장 시스템 요구사항
-            </div>
+        <div class="game_contentDiv d-flex justify-content-center p-2 px-5 mt-3">
+        	<c:if test="${minFinalSystem != null }">
+	            <div class="gameSystemDiv mx-3">
+	            	<p class="gameContent_head">최소 시스템 요구사항</p>
+	            	<c:forEach items="${minFinalSystem }" var="minsys">
+			            <p class="gameContent">${minsys }</p>	            	
+	            	</c:forEach>
+	            </div>        	
+        	</c:if>
+        	<c:if test="${maxFinalSystem != null }">
+	            <div class="gameSystemDiv mx-3">
+	            	<p class="gameContent_head">권장 시스템 요구사항</p>
+	            	<c:forEach items="${maxFinalSystem }" var="maxsys">
+			            <p class="gameContent">${maxsys }</p>	            	
+	            	</c:forEach>
+	            </div>        	
+        	</c:if>
         </div>
         
-        <%-- 리뷰를 쓴 적이 있으면 내가 쓴 리뷰를 표시하고
-        	 리뷰를 쓴 적이 없으면 리뷰 작성 양식을 표시
-        	 
-        	 페이지 이동 전 리뷰에 관한 정보를 담을 때
-        	 리뷰 작성자 아이디를 담아 주고 세션 아이디와 비교 --%>
-        <c:choose>
-        	<%-- 리뷰를 쓴 적이 있으면 --%>
-        	<c:when test="false">
-        		<div class="reviewDiv mt-3 mb-5 p-4">
-        			<h2>내가 작성한 리뷰</h2>
-	        		<div class="row my-3">
-		            	<div class="col-lg-3">
-		            		<div class="review_profile d-flex align-items-center justify-content-center mx-auto">프로필</div>
-		            		<div class="d-flex align-items-center justify-content-center my-1 p-1">닉네임</div>
-		            	</div>
-		            	<div class="col-lg-9">
-		            		<div class="review_info p-3">
-			            		<div class="d-flex justify-content-center">
-			            			<div class="mx-3">
-			            				별점 ★★★★★
-			            			</div>
-			            			<div class="mx-3">
-			            				추천수 : 1
-			            			</div>
-			            			<div class="mx-4">
-			            				작성일 : 2023-10-11 18:42
-			            			</div>
+        <c:if test="${sessionScope.loginId != null }">
+
+			<c:choose>
+	        	<c:when test="${myReview != null}">
+					<%-- 리뷰 수정 --%>
+					<div id="modifyReview" class="d-none wrap mt-3 w-50">
+						<form id="review_form" name="reviewform" class="reviewform" method="post" action="review_modify">
+							<input type="hidden" name="gameCode" value="${game.gcode }">
+							<input type="hidden" name="rate" id="rate" value="0" />
+							<input type="hidden" name="rcode" value="${myReview.RCODE }">
+							<p class="title_star">리뷰 수정하기</p>
+							
+							<div class="review_rating">
+								<div class="warning_msg">별점을 선택해 주세요.</div>
+								<div class="d-flex">
+									<div class="rating">
+										<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
+										<input type="checkbox" name="rating" id="rating1" value="1"class="rate_radio" title="1점">
+										<label for="rating1"></label>
+										<input type="checkbox" name="rating" id="rating2" value="2"class="rate_radio" title="2점">
+										<label for="rating2"></label>
+										<input type="checkbox" name="rating" id="rating3" value="3"class="rate_radio" title="3점">
+										<label for="rating3"></label>
+										<input type="checkbox" name="rating" id="rating4" value="4"class="rate_radio" title="4점">
+										<label for="rating4"></label>
+										<input type="checkbox" name="rating" id="rating5" value="5"class="rate_radio" title="5점">
+										<label for="rating5"></label>
+									</div>
+									
+									<div id="starValue"class="review_write_starValue d-flex align-items-center text-center ms-3">
+										0
+									</div>
+									<p class="review_write_starValue d-flex align-items-center text-center m-0">점</p>
+									
+									<div class="d-flex align-items-center justify-content-center text-center ms-5">
+										<button type="button" onclick="modifyCancle()">취소</button>
+									</div>
+								</div>
+							</div>
+			
+							<div class="review_contents">
+								<div class="warning_msg">5자 이상으로 작성해 주세요.</div>
+								<textarea rows="10" name="re_content" class="review_textarea"></textarea>
+							</div>
+			
+							<div class="cmd">
+								<input class="btn-dark w-100 mt-2" type="button" name="save" id="save" value="리뷰 수정">
+							</div>
+			
+						</form>
+					</div>
+					<%-- 리뷰 수정 끝 --%>
+	        		<div id="myReviewDiv" class="reviewDiv mt-3 mb-3 p-4">
+	        			<p id="rcode" hidden="hidden">${myReview.RCODE }</p>
+	        			<h2>내가 작성한 리뷰</h2>
+		        		<div class="row my-3">
+			            	<div class="col-lg-3">
+			            		<div class="review_profile d-flex align-items-center justify-content-center mx-auto">
+			            			<c:choose>
+			            				<c:when test="${myReview.PROFILE == '기본이미지' }">
+			            					<img class="profile_image" alt="프로필 이미지" src="resources/images/기본프로필.jpg">
+			            				</c:when>
+			            				
+			            				<c:otherwise>
+				            				<img class="profile_image" alt="프로필 이미지" src="${myReview.PROFILE }">		            				
+			            				</c:otherwise>
+			            			</c:choose>
 			            		</div>
-			            		<div class="review_content mt-1 px-3">
-			            			리뷰 내용
+			            		<div class="d-flex align-items-center justify-content-center my-1 p-1">${myReview.NICKNAME }</div>
+			            	</div>
+			            	<div class="col-lg-9">
+			            		<div class="review_info p-3">
+				            		<div class="d-flex justify-content-center">
+				            			<div class="mx-3">
+				            				별점 : <c:forEach begin="1" end="${myReview.RSCORE }" step="1">★</c:forEach>
+				            			</div>
+				            			<div class="mx-3">
+				            				추천수 : ${myReview.RLIKE }
+				            			</div>
+				            			<div class="mx-4">
+				            				작성일 : ${myReview.RDATE }
+				            			</div>
+				            		</div>
+				            		<div class="review_content mt-1 mx-2 p-2">
+				            			${myReview.RCONTENT }
+				            		</div>
 			            		</div>
-		            		</div>
-		            	</div>
-		            	
-		            	<div class="d-flex justify-content-center mt-1">
-			            	<button class="mx-2">수정</button>
-			            	<button class="mx-2">삭제</button>
-		            	</div>
-		            	
+			            	</div>
+			            	
+			            	<div class="d-flex justify-content-center my-1">
+				            	<button class="reviewModify_Button mx-2" onclick="modifyReview()">수정</button>
+				            	<button class="reviewDelete_Button mx-2" onclick="deleteReview()">삭제</button>
+			            	</div>
+			            	
+			            </div>
 		            </div>
-	            </div>
-        	</c:when>
-        	
-        	<%-- 리뷰를 쓴 적이 없으면 --%>
-        	<c:otherwise>
-        		<div id="myReview" class="wrap mt-3 w-50">
-        			<form id="review_form" name="reviewform" class="reviewform" method="post" action="">
-        				<input type="hidden" name="rate" id="rate" value="0"/>
-				        <p class="title_star">별점과 리뷰를 남겨주세요.</p>
-				 
-				        <div class="review_rating d-flex">
-				            <div class="warning_msg">별점을 선택해 주세요.</div>
-				            <div class="rating">
-				                <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-				                <input type="checkbox" name="rating" id="rating1" value="1" class="rate_radio" title="1점">
-				                <label for="rating1"></label>
-				                <input type="checkbox" name="rating" id="rating2" value="2" class="rate_radio" title="2점">
-				                <label for="rating2"></label>
-				                <input type="checkbox" name="rating" id="rating3" value="3" class="rate_radio" title="3점" >
-				                <label for="rating3"></label>
-				                <input type="checkbox" name="rating" id="rating4" value="4" class="rate_radio" title="4점">
-				                <label for="rating4"></label>
-				                <input type="checkbox" name="rating" id="rating5" value="5" class="rate_radio" title="5점">
-				                <label for="rating5"></label>
-				            </div>
-				            <div id="starValue" class="review_write_starValue d-flex align-items-center text-center mx-3">
-				            	0점
-				            </div>
-				        </div>
-				        
-				        <div class="review_contents">
-				            <div class="warning_msg">5자 이상으로 작성해 주세요.</div>
-				            <textarea rows="10" class="review_textarea"></textarea>
-				        </div>   
-				        
-				        <div class="cmd">
-				            <input class="btn-dark w-100 mt-2" type="button" name="save" id="save" value="등록">
-				        </div>
-				        
-        			</form>
-		        </div>
-        	</c:otherwise>
-        </c:choose>
+	        	</c:when>
+	        	
+	        	<c:otherwise>
+	        		<div id="myReview" class="wrap mt-3 w-50">
+	        			<form id="review_form" name="reviewform" class="reviewform" method="post" action="review_regist">
+	        				<input type="hidden" name="gameCode" value="${game.gcode }">
+	        				<input type="hidden" name="rate" id="rate" value="0"/>
+					        <p class="title_star">별점과 리뷰를 남겨주세요.</p>
+					 
+					        <div class="review_rating">
+					            <div class="warning_msg">별점을 선택해 주세요.</div>
+					            	<div class="d-flex">
+							            <div class="rating">
+							                <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
+							                <input type="checkbox" name="rating" id="rating1" value="1" class="rate_radio" title="1점">
+							                <label for="rating1"></label>
+							                <input type="checkbox" name="rating" id="rating2" value="2" class="rate_radio" title="2점">
+							                <label for="rating2"></label>
+							                <input type="checkbox" name="rating" id="rating3" value="3" class="rate_radio" title="3점" >
+							                <label for="rating3"></label>
+							                <input type="checkbox" name="rating" id="rating4" value="4" class="rate_radio" title="4점">
+							                <label for="rating4"></label>
+							                <input type="checkbox" name="rating" id="rating5" value="5" class="rate_radio" title="5점">
+							                <label for="rating5"></label>
+							            </div>
+							            <div id="starValue" class="review_write_starValue d-flex align-items-center text-center ms-3">
+							            	0
+							            </div>
+							           	<p class="review_write_starValue d-flex align-items-center text-center m-0">점</p>
+					            	</div>
+					        </div>
+					        
+					        <div class="review_contents">
+					            <div class="warning_msg">5자 이상으로 작성해 주세요.</div>
+					            <textarea rows="10" name="re_content" class="review_textarea"></textarea>
+					        </div>   
+					        
+					        <div class="cmd">
+					            <input class="btn-dark w-100 mt-2" type="button" name="save" id="save" value="등록">
+					        </div>
+					        
+	        			</form>
+			        </div>
+	        	</c:otherwise>
+	        </c:choose>
+        </c:if>
         
         <c:choose>
         	<%-- 가져온 리뷰가 하나라도 있으면 --%>
-        	<c:when test="true">
-		        <div class="reviewDiv mt-3 p-4">
-		            <div class="row my-3">
-		            	<div class="col-lg-3">
-		            		<div class="review_profile d-flex align-items-center justify-content-center mx-auto">프로필</div>
-		            		<div class="d-flex align-items-center justify-content-center my-1 p-1">닉네임</div>
-		            	</div>
-		            	<div class="col-lg-9">
-		            		<div class="review_info p-3">
-			            		<div class="d-flex justify-content-center">
-			            			<div class="mx-3">
-			            				별점 ★★★★★
-			            			</div>
-			            			<div class="mx-3">
-			            				추천수 : 1
-			            			</div>
-			            			<div class="mx-4">
-			            				작성일 : 2023-10-11 18:42
-			            			</div>
+        	<c:when test="${reviewList != null && reviewList.size() > 0 }">
+		        <div class="reviewDiv my-3 p-4 pb-0">
+		        	<c:forEach items="${reviewList }" var="review">
+		        	
+			            <div class="row my-3">
+			            	<div class="col-lg-3">
+			            		<div class="review_profile d-flex align-items-center justify-content-center mx-auto">
+			            			<c:choose>
+				            			<c:when test="${review.PROFILE == '기본이미지' }">
+				            				<img class="profile_image" alt="프로필 이미지" src="resources/images/기본프로필.jpg">
+				            			</c:when>
+				            				
+				            			<c:otherwise>
+					            			<img class="profile_image" alt="프로필 이미지" src="${review.PROFILE }">		            				
+				            			</c:otherwise>
+				            		</c:choose>
 			            		</div>
-			            		<div class="review_content mt-1 px-3">
-			            			리뷰 내용
+			            		<div class="d-flex align-items-center justify-content-center text-center my-2 p-1">${review.NICKNAME }</div>
+			            	</div>
+			            	<div class="col-lg-9">
+			            		<div class="review_info p-3">
+				            		<div class="d-flex justify-content-center">
+				            			<c:if test="${review.MID == sessionScope.loginId }">
+					            			<div class="myReview">내 평가</div>				            			
+				            			</c:if>
+				            			<div class="mx-3">
+				            				별점 : <c:forEach begin="1" end="${review.RSCORE }" step="1">★</c:forEach>
+				            			</div>
+				            			<div class="mx-3">
+				            				추천수 : ${review.RLIKE }
+				            			</div>
+				            			<div class="mx-4">
+				            				작성일 : ${review.RDATE }
+				            			</div>
+				            		</div>
+				            		<div class="review_content mt-1 mx-2 p-2">
+				            			${review.RCONTENT }
+				            		</div>
 			            		</div>
-		            		</div>
-		            	</div>
-		            	
-		            	<div class="d-flex justify-content-center mt-1">
-		            		<button class="mx-2">좋아요</button>
-		            		<button class="mx-2">싫어요</button>
-		            	</div>
-		            	
-		            </div>
-		            <div class="row my-3">
-		            	<div class="col-lg-3">
-		            		<div class="review_profile d-flex align-items-center justify-content-center mx-auto">프로필</div>
-		            		<div class="d-flex align-items-center justify-content-center my-1 p-1">닉네임</div>
-		            	</div>
-		            	<div class="col-lg-9">
-		            		<div class="review_info p-3">
-			            		<div class="d-flex justify-content-center">
-			            			<div class="mx-3">
-			            				별점 ★★★☆☆
-			            			</div>
-			            			<div class="mx-3">
-			            				추천수 : 3
-			            			</div>
-			            			<div class="mx-4">
-			            				작성일 : 2023-10-11 20:14
-			            			</div>
-			            		</div>
-			            		<div class="review_content mt-1 px-3">
-			            			리뷰 내용
-			            		</div>
-		            		</div>
-		            	</div>
-		            	
-		            	<div class="d-flex justify-content-center mt-1">
-		            		<button class="mx-2">좋아요</button>
-		            		<button class="mx-2">싫어요</button>
-		            	</div>
-		            	
-		            </div>
+			            	</div>
+			            	
+			            	<div class="d-flex justify-content-center">
+			            		<button class="likeButton mx-3" onclick="reLike('${sessionScope.loginId}', '${review.RCODE}', 'good')">좋아요</button>
+			            		<button class="likeButton mx-3" onclick="reLike('${sessionScope.loginId}', '${review.RCODE}', 'bad')">싫어요</button>
+			            	</div>
+			            	
+			            </div>
+		        	</c:forEach>
 		            
 		        </div>
         	</c:when>
         	
         	<%-- 아직 작성된 리뷰가 없으면 --%>
         	<c:otherwise>
-        		<div class="reviewDiv d-flex justify-content-center mt-3 p-4">
+        		<div class="reviewDiv d-flex justify-content-center my-3 p-4">
         			아직 작성된 리뷰가 없어요.
         		</div>
         	</c:otherwise>
@@ -441,6 +609,15 @@
     
     <!-- Core theme JS-->
     <script src="resources/users/js/scripts.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <script type="text/javascript">
+		let msg = '${msg}';
+		if(msg.length > 0){
+			alert(msg);
+		}
+	</script>
     
     <script type="text/javascript">
 	  //별점 마킹 모듈 프로토타입으로 생성
@@ -462,16 +639,20 @@
 	    
 	    document.addEventListener('DOMContentLoaded', function(){
 	        //별점선택 이벤트 리스너
-	        document.querySelector('.rating').addEventListener('click',function(e){
-	            let elem = e.target;
-	            if(elem.classList.contains('rate_radio')){
-	                rating.setRate(parseInt(elem.value));
-			        document.querySelector('#starValue').innerText = e.target.value + "점";
-	            }
-	        })
+	        if(document.querySelector('.rating') != null){
+		        document.querySelector('.rating').addEventListener('click',function(e){
+		            let elem = e.target;
+		            if(elem.classList.contains('rate_radio')){
+		                rating.setRate(parseInt(elem.value));
+				        document.querySelector('#starValue').innerText = e.target.value;
+				        document.querySelector('#rate').value = e.target.value;
+				    }
+		        })
+	        }
 	    });
 	    
 		  //상품평 작성 글자수 초과 체크 이벤트 리스너
+		  if(document.querySelector('.review_textarea') != null){
 		    document.querySelector('.review_textarea').addEventListener('keydown',function(){
 		        //리뷰 900자 초과 안되게 자동 자름
 		        let review = document.querySelector('.review_textarea');
@@ -481,22 +662,25 @@
 		            review.value = review.value.substr(0,900);
 		        }
 		    });
+		  }
 	
 		    //저장 전송전 필드 체크 이벤트 리스너
-		    document.querySelector('#save').addEventListener('click', function(e){
-		        //별점 선택 안했으면 메시지 표시
-		        if(rating.rate == 0){
-		            rating.showMessage('rate');
-		            return false;
-		        }
-		        //리뷰 5자 미만이면 메시지 표시
-		        if(document.querySelector('.review_textarea').value.length < 5){
-		            rating.showMessage('review');
-		            return false;
-		        }
-		        //폼 서밋
-		        document.querySelector('#review_form').submit();
-		    });
+		    if(document.querySelector('#save') != null){
+			    document.querySelector('#save').addEventListener('click', function(e){
+			        //별점 선택 안했으면 메시지 표시
+			        if(rating.rate == 0){
+			            rating.showMessage('rate');
+			            return false;
+			        }
+			        //리뷰 5자 미만이면 메시지 표시
+			        if(document.querySelector('.review_textarea').value.length < 5){
+			            rating.showMessage('review');
+			            return false;
+			        }
+			        //폼 서밋
+			        document.querySelector('#review_form').submit();
+			    });
+		    }
 		    
 		    Rating.prototype.showMessage = function(type){//경고메시지 표시
 			    switch(type){
@@ -506,7 +690,7 @@
 			            //지정된 시간 후 안내 메시지 감춤
 			            setTimeout(function(){
 			                document.querySelector('.review_rating .warning_msg').style.display = 'none';
-			            },1000);            
+			            }, 2000);            
 			            break;
 			        case 'review':
 			            //안내메시지 표시
@@ -514,10 +698,107 @@
 			            //지정된 시간 후 안내 메시지 감춤
 			            setTimeout(function(){
 			                document.querySelector('.review_contents .warning_msg').style.display = 'none';
-			            },1000);    
+			            }, 2000);    
 			            break;
 			    }
 			}
+    </script>
+    
+    <script type="text/javascript">
+    	function showVideo(){
+    		document.querySelector('#gameImg').classList.add('d-none');;
+    		let gameVideo = document.querySelector('#gameVideo');
+    		gameVideo.classList.remove('d-none');
+    	}
+    	
+    	function showImg(imgEl){
+    		document.querySelector('#gameVideo').classList.add('d-none');
+    		let gameImg = document.querySelector('#gameImg');
+    		gameImg.classList.remove('d-none');
+    		gameImg.setAttribute('src', imgEl.getAttribute('src'));
+    	}
+    </script>
+    
+    <script type="text/javascript">
+    	function img_click(divEl){
+    		console.log('이미지 클릭');
+    		let imgDivs = document.querySelectorAll('.game_imageDiv');
+    		for(let img of imgDivs){
+    			img.classList.remove('game_imageDiv_focus');
+    		}
+    		divEl.classList.add('game_imageDiv_focus');
+    	}
+    </script>
+    
+    <script type="text/javascript">
+    	function deleteReview(){
+    		let deleteCheck = confirm('리뷰를 삭제하시겠습니까?');
+    		if(deleteCheck == true){
+    			let rcode = document.querySelector('#rcode').innerText;
+    			let gcode = document.querySelector('#gameCode').innerText;
+    			console.log(gcode);
+    			location.href = '/deleteReview?rcode='+rcode+'&gcode='+gcode;
+    		}
+    	}
+    </script>
+    
+    <script type="text/javascript">
+    	function modifyReview(){
+    		let modifyReviewDiv = document.querySelector('#modifyReview');
+    		modifyReviewDiv.classList.remove('d-none');
+    		let myReviewDiv = document.querySelector('#myReviewDiv');
+    		myReviewDiv.classList.add('d-none');
+    	}
+    </script>
+    
+    <script type="text/javascript">
+    	function modifyCancle(){
+    		let modifyReviewDiv = document.querySelector('#modifyReview');
+    		modifyReviewDiv.classList.add('d-none');
+    		let myReviewDiv = document.querySelector('#myReviewDiv');
+    		myReviewDiv.classList.remove('d-none');
+    	}
+    </script>
+    
+    <script type="text/javascript">
+    	function reLike(memId, rcode, selected){
+    		$.ajax({
+    			type : "get",
+    			url : "/modifyReviewLikes",
+    			data : { "memId" : memId, "rcode" : rcode, "selected" : selected },
+    			success : function(re){
+    				if(re == '3'){
+    					alert('이미 해당 리뷰를 평가했습니다.');
+    				}
+    				else {
+    					alert('리뷰를 성공적으로 평가했습니다.');
+    				}
+    				console.log(re);
+    			}
+    		});
+    	}
+    </script>
+    
+    <script type="text/javascript">
+    	function addBasket(gcode, memId){
+    		console.log('장바구니 추가');
+    		$.ajax({
+    			type : "get",
+    			url : "/addGameBasket",
+    			data : { "gcode" : gcode, "memId" : memId },
+    			success : function(re){
+    				if(re == '1'){
+    					let check = confirm('장바구니에 게임을 성공적으로 추가하였습니다.\n장바구니 페이지로 이동하시겠습니까?');
+    					if(check == true){
+    						location.href = '/basketpage';
+    					}
+    				}
+    				else {
+    					alert('장바구니에 게임을 추가하던 중 오류가 발생했습니다.');
+    				}
+    			}
+    		});
+    	}
     </script>
     
 </html>

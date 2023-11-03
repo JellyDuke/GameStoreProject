@@ -126,7 +126,7 @@
 							</tr>				
 							<tr>
 								<th class="table_th">충전</th>
-								<td class="table_bd">포인트 충전 하고 싶으세요? <a class= "a_tag" href="${pageContext.request.contextPath }/inquiry">pointRecharge</a></td>
+								<td class="table_bd">포인트 충전 하고 싶으세요? <a class= "a_tag" href="${pageContext.request.contextPath }/pointrechargepage">pointRecharge</a></td>
 							</tr>
 							<tr>
 								<th class="table_th">결제내역/환불</th>

@@ -100,7 +100,7 @@
 	                            <a class="nav-link dropdown-toggle active" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 	                            <c:choose>
 									<c:when test="${sessionScope.loginState == 'YP' }">
-										<img style="width: 30px; height: 30px;" src="resources/memberprofile/${sessionScope.loginProfile }">
+										<img style="width: 30px; height: 30px;" src="${pageContext.request.contextPath }/resources/memberprofile/${sessionScope.loginProfile }">
 									</c:when>
 									<c:otherwise>
 										<c:choose>
@@ -154,7 +154,7 @@
     		if(text.length>0){
 	    		$.ajax({
 	    			type : 'get',
-	    			url : 'printgame',
+	    			url : '${pageContext.request.contextPath }/printgame',
 	    			data : {'text' : text,
 	    				},
 	    			success : function(typeList){
@@ -215,7 +215,7 @@
 	    					infoD.appendChild(tpD);
 	    					let infoA = document.createElement('a');
 	    					infoA.appendChild(infoD);
-	    					infoA.setAttribute('href','gameDetail/?gcode='+typeList[i].gcode);
+	    					infoA.setAttribute('href','${pageContext.request.contextPath }/gameDetail/?gcode='+typeList[i].gcode);
 	    					infoA.setAttribute('style','color: black;')
 	    					searchDiv.appendChild(infoA);
 	    				}
