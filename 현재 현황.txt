@@ -1,0 +1,10 @@
+해야 할것
+1. home.jsp -> index.jsp 이름 변경
+2. home.jsp -> css 정리, 정렬, 할인적용, 배너 href 적용
+3. menu.jsp -> 장바구니 카운트,  메뉴 css 다듬기
+4./pointrechargepage페이지 css다듬기
+5. gameList.jsp 장르 카테고리 scroll bar 따라다니기
+6. 리뷰 페이지 버튼 css 다듬기, 프로필 사진 등록
+7. company 회사 소개페이지 다듬기
+8. 메뉴 게임 리스트 들어갈때 gamelist/gamelist 버그 고치기
+9. 내 결제 내역 페이지 만들기
