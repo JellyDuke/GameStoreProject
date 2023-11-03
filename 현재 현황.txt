@@ -6,5 +6,4 @@
 5. gameList.jsp 장르 카테고리 scroll bar 따라다니기
 6. 리뷰 페이지 버튼 css 다듬기, 프로필 사진 등록
 7. company 회사 소개페이지 다듬기
-8. 메뉴 게임 리스트 들어갈때 gamelist/gamelist 버그 고치기
-9. 내 결제 내역 페이지 만들기
+8. 내 결제 내역 페이지 만들기
