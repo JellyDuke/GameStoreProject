@@ -205,7 +205,7 @@ public class GameService {
 		
 		return result + "";
 	}
-	public String getGcode(String gname) {
+	public String getGcode(String gname) {😊
 		return gdao.getgcode(gname);
 	}
 }
