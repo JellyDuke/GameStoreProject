@@ -22,7 +22,7 @@ public class GameController {
 	@Autowired
 	GameService gsvc;
 	
-	@RequestMapping(value = "/gameList")
+	@RequestMapping(value = "/gameList")😊
 	public ModelAndView gameList(int gameCount, String gtag) {
 		System.out.println("게임 목록 페이지 이동 요청");
 		ModelAndView mav = new ModelAndView();
