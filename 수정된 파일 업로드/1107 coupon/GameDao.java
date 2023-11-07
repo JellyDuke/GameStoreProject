@@ -89,5 +89,5 @@ public interface GameDao {
 
 	int insertGameBasket(@Param("scode") String scode, @Param("memId") String memId, @Param("gcode") String gcode);
 
-	String getgcode(String gname);
+	String getgcode(String gname);😊
 }
