@@ -16,7 +16,7 @@ public class Coupon {
 	private String cnumber;
 	private String datecheck;
 	private String typeCheck;
-	private String cgcode;
+	private String cgcode;😊
 	public String getCcode() {
 		return ccode;
 	}
