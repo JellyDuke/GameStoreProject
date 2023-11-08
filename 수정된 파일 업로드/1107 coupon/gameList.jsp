@@ -373,7 +373,7 @@
 	    		}
 	    		else {
 		    		gameCount += 20;	    			
-	    			location.href='/gameList?gameCount='+gameCount+'&gtag=';
+	    			location.href='/gameList?gameCount='+gameCount+'&gtag=';😊
 	    		}
 	    		
 	    	}
