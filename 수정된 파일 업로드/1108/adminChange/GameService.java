@@ -208,7 +208,7 @@ public class GameService {
 	public String getGcode(String gname) {
 		return gdao.getgcode(gname);
 	}
-	public int adminChange(Double percent, String gcode) {
+	public int adminChange(Double percent, String gcode) {😊
 		return gdao.adminChange(percent, gcode);
 	}
 }
