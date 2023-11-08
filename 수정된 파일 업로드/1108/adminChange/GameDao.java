@@ -91,5 +91,5 @@ public interface GameDao {
 
 	String getgcode(String gname);
 
-	int adminChange(@Param("percent")Double percent, @Param("gcode")String gcode);
+	int adminChange(@Param("percent")Double percent, @Param("gcode")String gcode);😊
 }
