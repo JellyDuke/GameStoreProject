@@ -173,7 +173,7 @@
 		VALUES(#{scode }, #{memId }, #{gcode })
 	</insert>
 	
-	<update id="adminChange">
+	<update id="adminChange">😊
 		UPDATE GAMES
 		SET GSALE = #{percent}, GDEADLINE = SYSDATE+7 
 		WHERE GCODE = #{gcode}
