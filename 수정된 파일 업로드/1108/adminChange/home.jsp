@@ -72,7 +72,7 @@
 						</div>
 					</div>
 				</c:forEach>
-				<div class="border border-dark text-center" style="width: 300px; height: auto; border-radius: 10px; background-color: black;">
+				<div class="border border-dark text-center" style="width: 300px; height: auto; border-radius: 10px; background-color: black;">😊
 					<a style="text-decoration: none; font-size: 25px; color: white; " href="${pageContext.request.contextPath }/gameList?gameCount=20&gtag=">게임 더보기</a>
 				</div>	
 			</div>
