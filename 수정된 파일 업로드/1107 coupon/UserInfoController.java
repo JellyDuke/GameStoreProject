@@ -88,7 +88,7 @@ public class UserInfoController {
 	
 	
 	
-	//쿠폰 시작
+	//쿠폰 시작😊
 	@RequestMapping(value = "/mycouponpage", method = RequestMethod.GET)
 	public ModelAndView mycouponpage(HttpSession session) throws ParseException{
 		System.out.println("USERINFO CONTROLLER - 내 쿠폰 리스트");		
