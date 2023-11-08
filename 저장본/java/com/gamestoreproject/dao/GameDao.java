@@ -13,7 +13,7 @@ import com.gamestoreproject.dto.Review;
 public interface GameDao {
 	
 	//GAME RANK LIST
-	ArrayList<Game> selectRankGameList();
+	ArrayList<HashMap<String, String>> selectRankGameList();
 
 	//검색엔진
 	ArrayList<String> getTyp(String text);
@@ -41,6 +41,7 @@ public interface GameDao {
 
 	int checkcode(@Param("code")String code, @Param("cowner")String cowner);
 	
+	String getgcode(String gname);
 	//쿠폰 끝
 	
 	//gameInfo
@@ -63,6 +64,7 @@ public interface GameDao {
 	String getMNick(String mid);
 	//order 끝
 	
+	//gamedetail 시작
 	Game selectGameDetail(@Param("gcode") String gcode);
 
 	String selectRcode();
@@ -88,4 +90,8 @@ public interface GameDao {
 	String selectScode();
 
 	int insertGameBasket(@Param("scode") String scode, @Param("memId") String memId, @Param("gcode") String gcode);
+	//gamedetail 끝
+	
+	//admin
+	int adminChange(@Param("percent")Double percent, @Param("gcode")String gcode);
 }

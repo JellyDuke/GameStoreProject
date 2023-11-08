@@ -156,7 +156,7 @@
 									<form action="${pageContext.request.contextPath }/mproFile" method="post" enctype="multipart/form-data"	>
 										<input type="file" name="bfile"> 
 										<div>
-											<input type="submit" value="등록">
+											<input type="submit" value="등록" style="margin-top: 40px;">
 										</div>
 									</form>
 								</td>
@@ -177,7 +177,7 @@
 								</c:when>	
 								<c:otherwise>
 									<th class="table_th">비밀번호</th>
-									<td class="table_bd"> <span>비밀번호 변경 하시겠습니까?</span> <button style="margin-left: 10px;" onclick="reMpw()">변경</button> </td>
+									<td class="table_bd"> <span>비밀번호 변경 하시겠습니까?</span> <button style="margin-left: 10px; border: 1px solid black; border-radius: 11px;" onclick="reMpw()">변경</button> </td>
 								</c:otherwise>						
 							</c:choose>	
 							</tr>
@@ -191,7 +191,7 @@
 							</tr>
 							<tr>
 								<th class="table_th">포인트</th>
-								<td class="table_bd"> <span>${sessionScope.loginPoint }</span> <button style="margin-left: 10px;" onclick="location.href='${pageContext.request.contextPath }/pointrechargepage'">충전</button> </td>
+								<td class="table_bd"> <span>${sessionScope.loginPoint }</span> <button style="margin-left: 10px; border: 1px solid black; border-radius: 11px;" onclick="location.href='${pageContext.request.contextPath }/pointrechargepage'">충전</button> </td>
 							</tr>
 							<tr>
 								<th class="table_th">가입일</th>
@@ -199,7 +199,7 @@
 							</tr>	
 							<tr>
 								<th class="table_th">탈퇴신청</th>
-								<td class="table_bd"> <button onclick="removeMember();">탈퇴</button> </td>
+								<td class="table_bd"> <button onclick="removeMember();" style=" border: 1px solid black; border-radius: 11px;">탈퇴</button> </td>
 							</tr>													
 						</table>    	       	
 	            	</div>

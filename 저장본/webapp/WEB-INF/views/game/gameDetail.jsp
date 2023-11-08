@@ -297,6 +297,18 @@
         <!-- contents start -->
         <div class="container game_head">
        		<h1 class="game_title">${game.gname }</h1>
+	       		<c:choose>
+					<c:when test = "${sessionScope.loginId == 'jinseoshin3@naver.com' }">      					
+				       		<form action="#" class="border border-dark w-25" onsubmit="return adminChange('${game.gcode }')">
+					       		할인율: <input type="number" oninput="changeSalePrice(this.value)" min="1" max="99">%
+					       		<br>
+					       		현재 가격: <input id="currentPrice" type="text" value="${game.gprice }" disabled="disabled" size="6">
+					       		<br>
+					           	할인 가격: <input id="salePrice" type="text" value="" disabled="disabled" size="6">
+					           	<input type="submit" value="변경">									     								       			
+				       		</form>
+					</c:when>     	
+				</c:choose>	
        		<p id="gameCode" hidden="hidden">${game.gcode }</p>
             <div class="row content_Div">
             	<div class="col-lg-8">
@@ -451,15 +463,23 @@
 		        		<div class="row my-3">
 			            	<div class="col-lg-3">
 			            		<div class="review_profile d-flex align-items-center justify-content-center mx-auto">
-			            			<c:choose>
-			            				<c:when test="${myReview.PROFILE == '기본이미지' }">
-			            					<img class="profile_image" alt="프로필 이미지" src="resources/images/기본프로필.jpg">
-			            				</c:when>
-			            				
-			            				<c:otherwise>
-				            				<img class="profile_image" alt="프로필 이미지" src="${myReview.PROFILE }">		            				
-			            				</c:otherwise>
-			            			</c:choose>
+			            			
+			            		<c:choose>
+									<c:when test="${myReview.MSTATE == 'YP' }">
+										<img class="profile_image" alt="프로필 이미지" src="${pageContext.request.contextPath }/resources/memberprofile/${myReview.PROFILE }">
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${myReview.MSTATE == 'Y ' }">
+												<img class="profile_image" alt="프로필 이미지" src="${pageContext.request.contextPath }/resources/users/assets/img/basic.png">
+											</c:when>
+											<c:otherwise>
+	                           					 <img class="profile_image" alt="프로필 이미지" src="${myReview.PROFILE }">
+											</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
+								
 			            		</div>
 			            		<div class="d-flex align-items-center justify-content-center my-1 p-1">${myReview.NICKNAME }</div>
 			            	</div>
@@ -546,14 +566,20 @@
 			            	<div class="col-lg-3">
 			            		<div class="review_profile d-flex align-items-center justify-content-center mx-auto">
 			            			<c:choose>
-				            			<c:when test="${review.PROFILE == '기본이미지' }">
-				            				<img class="profile_image" alt="프로필 이미지" src="resources/images/기본프로필.jpg">
-				            			</c:when>
-				            				
-				            			<c:otherwise>
-					            			<img class="profile_image" alt="프로필 이미지" src="${review.PROFILE }">		            				
-				            			</c:otherwise>
-				            		</c:choose>
+									<c:when test="${review.MSTATE == 'YP' }">
+										<img class="profile_image" alt="프로필 이미지" src="${pageContext.request.contextPath }/resources/memberprofile/${review.PROFILE }">
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${review.MSTATE == 'Y ' }">
+												<img class="profile_image" alt="프로필 이미지" src="${pageContext.request.contextPath }/resources/users/assets/img/basic.png">
+											</c:when>
+											<c:otherwise>
+	                           					 <img class="profile_image" alt="프로필 이미지" src="${review.PROFILE }">
+											</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
 			            		</div>
 			            		<div class="d-flex align-items-center justify-content-center text-center my-2 p-1">${review.NICKNAME }</div>
 			            	</div>
@@ -619,6 +645,43 @@
 		}
 	</script>
     
+	<script type="text/javascript">
+	let saleper = 0;
+	let currentPrice = document.querySelector("#currentPrice");
+	let salePrice = document.querySelector("#salePrice");
+	function changeSalePrice(sper){
+		console.log(sper);
+		saleper = (100-sper)/100;
+		salePrice.value = currentPrice.value*(100-sper)/100;
+		console.log(saleper);
+	}
+	
+	function adminChange(gcode){
+		if(saleper == 0){
+			alert("할인율 입력해주세요");
+			return false;
+		}
+		$.ajax({
+		    type : 'get',
+		    url : 'adminChange',
+		    data : {'percent' : saleper,
+		    		'gcode' : gcode},
+		    async : false,
+		    success : function(checknum){
+		    	console.log(checknum);
+		    	if(checknum > 0){
+		    		alert("변경완료");	
+		    	} else{
+		    		alert("변경실패");
+		    	}
+		    				
+		    }
+		})
+		location.reload();
+		return false;
+	}
+	</script>
+	
     <script type="text/javascript">
 	  //별점 마킹 모듈 프로토타입으로 생성
 	    function Rating(){};

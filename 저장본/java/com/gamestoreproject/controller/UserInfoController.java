@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +23,7 @@ import com.gamestoreproject.dto.Game;
 import com.gamestoreproject.dto.Inquire;
 import com.gamestoreproject.dto.Member;
 import com.gamestoreproject.dto.Order;
+import com.gamestoreproject.service.GameService;
 import com.gamestoreproject.service.UserInfoService;
 import com.google.gson.Gson;
 
@@ -30,8 +32,8 @@ public class UserInfoController {
 	
 	@Autowired
 	private UserInfoService usvc;
-	
-	
+	@Autowired
+	private GameService gsvc;
 	//페이지 보기 시작
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public ModelAndView mypage(){
@@ -50,27 +52,19 @@ public class UserInfoController {
 		return mav;
 	}
 	@RequestMapping(value = "/myreviewpage", method = RequestMethod.GET)
-	public ModelAndView myReviewPage(){
+	public ModelAndView myReviewPage(HttpSession session){
 		System.out.println("USERINFO CONTROLLER - 내 리뷰");
+		String mid = (String) session.getAttribute("loginId");
 		
 		ModelAndView mav = new ModelAndView();
+		ArrayList<HashMap<String, String>> reviewList = usvc.getReviewList(mid);
+		System.out.println(reviewList);
+		
+		if(reviewList != null && reviewList.size() > 0) {
+			mav.addObject("reviewList", reviewList);
+		}
+		
 		mav.setViewName("userInfo/myReviewPage");
-		return mav;
-	}
-	@RequestMapping(value = "/myWishlist", method = RequestMethod.GET)
-	public ModelAndView myWishList(){
-		System.out.println("USERINFO CONTROLLER - 내 찜");
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("userInfo/myWishList");
-		return mav;
-	}
-	@RequestMapping(value = "/mySaleList", method = RequestMethod.GET)
-	public ModelAndView mySaleList(){
-		System.out.println("USERINFO CONTROLLER - 세일 리스트");
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("userInfo/mySaleList");
 		return mav;
 	}
 	@RequestMapping(value = "/paymentHistory", method = RequestMethod.GET)
@@ -118,13 +112,32 @@ public class UserInfoController {
 			//오늘 날짜
 			Date today = new Date(dateFormat.parse(todayfm).getTime());
 			int compare = date.compareTo(today); 
-			
+			ArrayList<String> tagList = new ArrayList<String>();
+			tagList.add("액션");
+			tagList.add("시뮬레이션");
+			tagList.add("전략");
+			tagList.add("어드벤처");
+			tagList.add("인디");
+			tagList.add("레이싱");
+			tagList.add("대규모 멀티플레이어");
+			tagList.add("스포츠");
+			tagList.add("RPG");
+			tagList.add("캐주얼");
+			if(tagList.contains(c.getCtype())) {
+				c.setTypeCheck("tag");
+			} else {
+				String gname = c.getCtype();
+				String gcode = gsvc.getGcode(gname);
+				c.setCgcode(gcode);
+				c.setTypeCheck("title");
+			}
 			if(compare>=0) {
 				c.setDatecheck("Y");
 			} else {
 				c.setDatecheck("N");
 			}
 		}
+		System.out.println(couponList);
 		mav.addObject("cList", couponList);
 		mav.setViewName("userInfo/myCouponPage");
 		return mav;
@@ -360,6 +373,8 @@ public class UserInfoController {
 		mav.addObject("mupoint", memUsedPoint);
 		mav.addObject("mtpoint", memTotalPoint);
 		mav.addObject("mpoint", memPoint);
+		session.setAttribute("loginPoint", memPoint);
+		
 		mav.setViewName("payment/pointRechargePage");
 		return mav;
 	}

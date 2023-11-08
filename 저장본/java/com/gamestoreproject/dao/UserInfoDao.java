@@ -1,6 +1,7 @@
 package com.gamestoreproject.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -38,6 +39,9 @@ public interface UserInfoDao {
 	
 	//문의 내역 업데이트
 	int updateInqueres(@Param("iredate")String adate, @Param("irecomment")String acomment, @Param("icode")String icode);
+
+	//리뷰 리스트 가져오기
+	ArrayList<HashMap<String, String>> selectReviewList(@Param("mid")String mid);
 
 
 }

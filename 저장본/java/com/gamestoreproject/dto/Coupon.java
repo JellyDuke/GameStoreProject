@@ -12,6 +12,8 @@ public class Coupon {
 	private String cstack;
 	private String cnumber;
 	private String datecheck;
+	private String typeCheck;
+	private String cgcode;
 	public String getCcode() {
 		return ccode;
 	}
@@ -78,10 +80,25 @@ public class Coupon {
 	public void setDatecheck(String datecheck) {
 		this.datecheck = datecheck;
 	}
+	public String getTypeCheck() {
+		return typeCheck;
+	}
+	public void setTypeCheck(String typeCheck) {
+		this.typeCheck = typeCheck;
+	}
+	public String getCgcode() {
+		return cgcode;
+	}
+	public void setCgcode(String cgcode) {
+		this.cgcode = cgcode;
+	}
+	
 	@Override
 	public String toString() {
 		return "Coupon [ccode=" + ccode + ", ctype=" + ctype + ", cregist=" + cregist + ", cpercent=" + cpercent
 				+ ", cdeadline=" + cdeadline + ", cused=" + cused + ", cowner=" + cowner + ", cdate=" + cdate
-				+ ", cstack=" + cstack + ", cnumber=" + cnumber + ", datecheck=" + datecheck + "]";
+				+ ", cstack=" + cstack + ", cnumber=" + cnumber + ", datecheck=" + datecheck + ", typeCheck="
+				+ typeCheck + ", cgcode=" + cgcode + "]";
 	}
+	
 }

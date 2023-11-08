@@ -133,6 +133,9 @@
     			text-align: center;
     			max-height: 50px;
     		}
+    		.d-none{
+    			display: none;
+    		}
     	</style>
     </head>
     <body>
@@ -159,13 +162,13 @@
 					  			</form>
 	            			</div>
 					  		<div class="dropdown" style="margin-right: 30px;">
-							  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-							    사용가능
+							  <button class="btn dropdown-toggle" type="button" id="dropbtn" data-bs-toggle="dropdown" aria-expanded="false">
+							    전체
 							  </button>
 							  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-							    <li><a class="dropdown-item" href="#">전체</a></li>
-							    <li><a class="dropdown-item" href="#">사용가능</a></li>
-							    <li><a class="dropdown-item" href="#">사용불가(완료)</a></li>	
+							    <li><a class="dropdown-item" onclick="sortTable('all')">전체</a></li>
+							    <li><a class="dropdown-item" onclick="sortTable('nuse')">사용가능</a></li>
+							    <li><a class="dropdown-item" onclick="sortTable('done')">사용불가(완료)</a></li>	
 							    <c:choose>
 			                  		<c:when test = "${sessionScope.loginId == 'jinseoshin3@naver.com' }">   
 			                       		<li><a class="dropdown-item" href="${pageContext.request.contextPath }/makecouponpage">쿠폰발행</a></li>										
@@ -189,15 +192,15 @@
 								<tbody>									
 									<c:forEach items="${cList}" var="cL">
 										<tr>		
-										<td>${cL.ctype }</td>
-										<td>${cL.cpercent }%</td>
-										<td>${cL.cdate }</td>
-										<td>${cL.cdeadline }</td>
+											<td>${cL.ctype }</td>
+											<td>${cL.cpercent }%</td>
+											<td>${cL.cdate }</td>
+											<td>${cL.cdeadline }</td> 
 										<c:choose>											
 											<c:when test = "${sessionScope.loginId == 'jinseoshin3@naver.com' }">   
 			                       				<c:choose>
-			                       					<c:when test = "${cL.cstack == '0' }">   
-			                       						<td>등록완료</td>			
+			                       					<c:when test = "${cL.cstack == '0' }"> 			                       						 
+			                       						<td class="done">등록완료</td>			
 			                   						</c:when> 
 			                   						<c:otherwise>
 			                   							<td>${cL.cstack }</td>
@@ -205,16 +208,22 @@
 			                       				</c:choose>	
 			                   				</c:when> 
 											<c:when test="${cL.datecheck == 'N' }">
-												<td>기간만료</td>
+												<td class="done">기간만료</td>
 											</c:when>
 											<c:when test="${cL.cused == 'N'}">
-												<td> <button class="btn btn-success">사용하기</button> </td>
+												<c:choose>
+													<c:when test="${cL.typeCheck == 'title'}">
+														<td> <button class="nused btn btn-success" onclick="location.href='${pageContext.request.contextPath }/gameDetail/?gcode=${cL.cgcode }'">사용하기</button> </td>
+													</c:when>
+													<c:otherwise>													
+														<td> <button class="nused btn btn-success" onclick="location.href='${pageContext.request.contextPath }/gameList?gameCount=200&gtag=${cL.ctype }'">사용하기</button> </td>
+													</c:otherwise>
+												</c:choose>
 											</c:when>
 											<c:otherwise>
-												<td>사용완료</td>
+												<td class="done">사용완료</td>
 											</c:otherwise>
-										</c:choose>
-										
+										</c:choose>										
 									</tr>	
 									</c:forEach>
 								</tbody>
@@ -258,6 +267,49 @@
         <!-- Core theme JS-->
         <script src="resources/users/js/scripts.js"></script>
         <script type="text/javascript">
+       		let dropbtn = document.querySelector('#dropbtn');
+       		let doneList = [];
+       		let nusedList = [];
+        	let done = document.querySelectorAll('.done');
+        	for(let don of done){
+        		doneList.push(don.parentElement);
+        	}
+        	let nused = document.querySelectorAll('.nused');       	
+        	for(let nuse of nused){
+        		nusedList.push(nuse.parentElement.parentElement);
+        	}
+        	console.log(doneList);
+        	console.log(nusedList);
+	        function sortTable(sor){
+	    		if(sor == 'nuse'){
+	    			dropbtn.innerText = "사용가능";
+	    			for(let i of doneList){
+	    				console.log(i);
+	    				i.classList.add('d-none');    				
+	    			}
+	    			for(let j of nusedList){
+	    				console.log(j);
+	    				j.classList.remove('d-none');
+	    			}
+	    		} else if(sor == 'done'){
+	    			dropbtn.innerText = "사용불가(완료)";
+	    			for(let k of nusedList){
+		    			k.classList.add('d-none');
+	    			}
+	    			for(let z of doneList){
+	    				z.classList.remove('d-none');    				
+	    			}
+	    		} else {
+	    			dropbtn.innerText = "전체";
+	    			for(let j of nusedList){
+		    			j.classList.remove('d-none');
+	    			}
+	    			for(let z of doneList){
+	    				z.classList.remove('d-none');    				
+	    			}
+	    		}
+	    	}
+        	
         	function registcoupon(){
         		let ccode = document.getElementById("codeinput").value;
         		let uid = '<%=(String)session.getAttribute("loginId")%>';        
@@ -291,6 +343,7 @@
 			    })
 			    console.log(check);
 			    if(check != "Y"){
+			    	alert("잘못된 입력입니다");	
 			    	return false;
 			    }	
         		

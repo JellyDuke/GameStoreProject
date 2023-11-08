@@ -1,6 +1,7 @@
 package com.gamestoreproject.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,9 +31,10 @@ public class MainController {
 	public ModelAndView home(){
 		System.out.println("MAIN CONTROLLER - 메인페이지 이동");
 		ModelAndView mav = new ModelAndView();
-		ArrayList<Game> GameList = gsvc.gameList();
+		ArrayList<HashMap<String, String>> GameList = gsvc.gameList();
+		System.out.println(GameList);
 		mav.addObject("GameList",GameList);
-		mav.setViewName("home");
+		mav.setViewName("index");
 		return mav;
 	}
 	@RequestMapping(value = "/companyView", method = RequestMethod.GET)

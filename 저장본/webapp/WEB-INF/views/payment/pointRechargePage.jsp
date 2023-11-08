@@ -198,6 +198,13 @@
     			max-height: 100px;
     			table-layout: fixed;
     		}
+    		.gbtn{
+    			background-color: black;
+    			color: white;
+    			border: 1px solid black;
+    			border-radius: 11px;
+    		}   
+    				
     	</style>
     </head>
     <body>
@@ -232,20 +239,20 @@
 	            				</div>
 	            				<div class="pText">
 	            					포인트 잔액 <span>${mpoint}P</span> 
-		            				<button onclick="display()">충전</button><button style="margin-left: 10px;" onclick="displayhistory()">내역</button>	            					
+		            				<button class="gbtn" onclick="display()">충전</button><button class="gbtn" style="margin-left: 10px;" onclick="displayhistory()">내역</button>	            					
 	            				</div>
 	            			</div>
 	            			<form id="chargeForm" class="h-25 d-none" action="#">		            
 	            				<input class="pText" maxlength="6" size="6" type="text" id="price" disabled="disabled" name="cstack" value="0">원
-	            				<input class="chargeBtn" type="button" onclick="registRechargeInfo('kakao')" value="충전(KAKAOPAY)">
-	            				<input class="chargeBtn" type="button" onclick="registRechargeInfo('inicis')" value="충전(INICIS)">	            					
+	            				<input class="chargeBtn gbtn" type="button" onclick="registRechargeInfo('kakao')" value="충전(KAKAOPAY)">
+	            				<input class="chargeBtn gbtn" type="button" onclick="registRechargeInfo('inicis')" value="충전(INICIS)">	            					
 	            				<br>
 	            				<div class="btnbox">
-		            				<button type="button" onclick="changePrice(this.value)" value="1000">+1000</button>
-		            				<button type="button" onclick="changePrice(this.value)" value="5000">+5000</button>
-		            				<button type="button" onclick="changePrice(this.value)" value="10000">+10000</button>
-		            				<button type="button" onclick="changePrice(this.value)" value="50000">+50000</button>
-		            				<button type="button" onclick="changePrice(this.value)" value="100000">+100000</button>		            			
+		            				<button class="gbtn" type="button" onclick="changePrice(this.value)" value="1000">+1000</button>
+		            				<button class="gbtn" type="button" onclick="changePrice(this.value)" value="5000">+5000</button>
+		            				<button class="gbtn" type="button" onclick="changePrice(this.value)" value="10000">+10000</button>
+		            				<button class="gbtn" type="button" onclick="changePrice(this.value)" value="50000">+50000</button>
+		            				<button class="gbtn" type="button" onclick="changePrice(this.value)" value="100000">+100000</button>		            			
 	            				</div>
 	            			</form>	            	
 	            	
@@ -423,7 +430,6 @@
     					}
     				} else {
     					console.log("예매 INSERT 실패");
-    					alert('예매 실패');	
     				}
     			}
     		})
@@ -492,4 +498,3 @@
     	}
 	</script>
 </html>
-

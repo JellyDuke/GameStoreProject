@@ -4,10 +4,12 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gamestoreproject.dao.GameDao">
-	<select id="selectRankGameList" resultType="com.gamestoreproject.dto.Game">
-		SELECT *
-	 	FROM GAMES
-	 	WHERE ROWNUM BETWEEN 1 AND 12 AND GSTATE = '1'
+	<select id="selectRankGameList" parameterType="String" resultType="hashmap">
+		SELECT GM.GCODE AS GCODE, GM.GNAME AS GNAME, GM.GMAINIMG AS GMAINIMG, GM.GPRICE AS GPRICE, GM.GSALE AS GSALE, RS.RSCORE AS RSCORE
+		FROM GAMES GM INNER JOIN (SELECT GM.GCODE AS GCODE, AVG(RE.RSCORE) AS RSCORE
+			                      FROM GAMES GM INNER JOIN REVIEWS RE ON GM.GCODE = RE.RGCODE
+			                      WHERE GSTATE = '1' AND RSTATE = 'Y' 
+			                      GROUP BY GM.GCODE) RS ON GM.GCODE = RS.GCODE
 	</select>
 	
 	<select id="selectGameList">
@@ -70,6 +72,10 @@
 	<select id="checkcode" resultType="int">
 		SELECT NVL(COUNT(CCODE),0) FROM COUPONS WHERE CNUMBER = #{code} AND CREGIST = 'Y' AND COWNER = #{cowner} And CDEADLINE > SYSDATE
 	</select>
+	
+	<select id="getgcode" resultType="String">
+		SELECT GCODE FROM GAMES WHERE GNAME = #{gname}
+	</select>
 	<!-- 쿠폰 끝 -->
 	
 	<!-- 결제 시작 -->
@@ -114,7 +120,7 @@
 	</insert>
 	
 	<select id="selectReviewList" parameterType="String" resultType="hashmap">
-		SELECT RE.RCODE AS RCODE, TO_CHAR(RE.RDATE, 'YYYY-MM-DD HH24:MI') AS RDATE, RE.RSCORE AS RSCORE, RE.RLIKE AS RLIKE, RE.RCONTENT AS RCONTENT, MEM.MNICKNAME AS NICKNAME, MEM.MPROFILE AS PROFILE, MEM.MID AS MID
+		SELECT RE.RCODE AS RCODE, TO_CHAR(RE.RDATE, 'YYYY-MM-DD HH24:MI') AS RDATE, RE.RSCORE AS RSCORE, RE.RLIKE AS RLIKE, RE.RCONTENT AS RCONTENT, MEM.MNICKNAME AS NICKNAME, MEM.MPROFILE AS PROFILE, MEM.MID AS MID, MEM.MSTATE AS MSTATE
 		FROM REVIEWS RE INNER JOIN MEMBERS MEM
 		     ON RE.RMCODE = MEM.MID
 		WHERE RGCODE = #{gcode }
@@ -170,4 +176,10 @@
 		VALUES(#{scode }, #{memId }, #{gcode })
 	</insert>
 	<!-- 끝 -->
+	<!-- 어드민 -->
+	<update id="adminChange">
+		UPDATE GAMES
+		SET GSALE = #{percent}, GDEADLINE = SYSDATE+7 
+		WHERE GCODE = #{gcode}
+	</update>
 </mapper>

@@ -3,6 +3,7 @@ package com.gamestoreproject.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.UUID;
@@ -169,7 +170,7 @@ public class UserInfoService {
 		try {
 			result = udao.updateFile(mem);
 		} catch (Exception e) {
-			System.out.println("이상한 프로필");
+			return 0;
 		}
 		return result;
 	}
@@ -233,4 +234,20 @@ public class UserInfoService {
 		return gdao.getMNick(mid);
 	}
 	//끝
+	
+	//review리뷰
+	public ArrayList<HashMap<String, String>> getReviewList(String mid) {
+		System.out.println("UserInfoService - getReviewList");
+		
+		ArrayList<HashMap<String, String>> reviewList = null;
+		try {
+			reviewList = udao.selectReviewList(mid);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return reviewList;
+	}
 }

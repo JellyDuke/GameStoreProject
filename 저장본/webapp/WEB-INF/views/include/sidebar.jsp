@@ -92,7 +92,7 @@
       <li>
         <a href="#">
           <span class="icon">P</span>
-          <span class="text">0 point</span>
+          <span class="text">${sessionScope.loginPoint } point</span>
         </a>
       </li>
       <hr>

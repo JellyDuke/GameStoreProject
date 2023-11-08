@@ -16,9 +16,9 @@ public class GameService {
 	@Autowired
 	private GameDao gdao;
 	
-	public ArrayList<Game> gameList() {
+	public ArrayList<HashMap<String, String>> gameList() {
 		System.out.println("SERVICE - rankGameList()");
-		ArrayList<Game> GameList = gdao.selectRankGameList();
+		ArrayList<HashMap<String, String>> GameList = gdao.selectRankGameList();
 		return GameList;
 	}
 	public ArrayList<Game> getgameList(int gameCount) {
@@ -51,10 +51,12 @@ public class GameService {
 		try {
 			rcode = gdao.selectRcode();
 			String rcode_left = rcode.substring(0, 2);
-			String rcode_right = rcode.substring(2);
-			rcode_right = String.format("%05d", Integer.parseInt(rcode_right + 1 ));
-			rcode = rcode_left + rcode_right;
+			int rcode_right = Integer.parseInt(rcode.substring(2));
+			
+			rcode = rcode_left + String.format("%05d",rcode_right + 1);
 		}
+		
+		
 		catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -204,5 +206,12 @@ public class GameService {
 		}
 		
 		return result + "";
+	}
+	public String getGcode(String gname) {
+		System.out.println("SERVICE - getGcode");
+		return gdao.getgcode(gname);
+	}
+	public int adminChange(Double percent, String gcode) {
+		return gdao.adminChange(percent, gcode);
 	}
 }

@@ -23,12 +23,9 @@ public class GameController {
 	GameService gsvc;
 	
 	@RequestMapping(value = "/gameList")
-	public ModelAndView gameList(int gameCount) {
-		
+	public ModelAndView gameList(int gameCount, String gtag) {
 		System.out.println("게임 목록 페이지 이동 요청");
-		
 		ModelAndView mav = new ModelAndView();
-		
 		ArrayList<Game> beforeGameList = gsvc.getgameList(gameCount-20);
 		ArrayList<Game> gameList = gsvc.getgameList(gameCount);
 		if(beforeGameList.size() == gameList.size()) {
@@ -45,7 +42,9 @@ public class GameController {
 			}
 		}
 		ganreList.remove("앞서 해보기");
-		
+		if(gtag.length()>0) {
+			mav.addObject("ctag",gtag);
+		}
 		mav.addObject("gameList", gameList);
 		mav.addObject("ganreList", ganreList);
 		mav.addObject("gameCount", gameCount);
@@ -170,6 +169,7 @@ public class GameController {
 		mav.addObject("minFinalSystem", minFinalSystem);
 		
 		ArrayList<HashMap<String, String>> reviewList = gsvc.getReviewList(gcode);
+		System.out.println(reviewList);
 		if(reviewList != null && reviewList.size() > 0) {
 			mav.addObject("reviewList", reviewList);
 			for(HashMap<String, String> review : reviewList) {
@@ -311,6 +311,13 @@ public class GameController {
 		mav.setViewName("payment/basketpage");
 		
 		return mav;
+	}
+	@RequestMapping(value="/adminChange")
+	public @ResponseBody int adminChange(Double percent, String gcode) {
+		System.out.println("할인율 : "+percent);
+		System.out.println("할인게임 : "+gcode);
+		int checkNum = gsvc.adminChange(percent, gcode);
+		return checkNum;
 	}
 	
 }
