@@ -297,7 +297,7 @@
         <!-- contents start -->
         <div class="container game_head">
        		<h1 class="game_title">${game.gname }</h1>
-       		<c:choose>
+       		<c:choose>😊
 			       		<c:when test = "${sessionScope.loginId == 'jinseoshin3@naver.com' }">      					
 			       			<form action="#" class="border border-dark w-25" onsubmit="return adminChange('${game.gcode }')">
 				       			할인율: <input type="number" oninput="changeSalePrice(this.value)" min="1" max="99">%
@@ -631,7 +631,7 @@
 		}
 	</script>
     
-    <script type="text/javascript">
+    <script type="text/javascript">😊
     	let saleper = 0;
     	let currentPrice = document.querySelector("#currentPrice");
     	let salePrice = document.querySelector("#salePrice");
