@@ -313,7 +313,7 @@ public class GameController {
 		
 		return mav;
 	}
-	@RequestMapping(value="/adminChange")
+	@RequestMapping(value="/adminChange")😊
 	public @ResponseBody int adminChange(Double percent, String gcode) {
 		System.out.println("할인율 : "+percent);
 		System.out.println("할인게임 : "+gcode);
