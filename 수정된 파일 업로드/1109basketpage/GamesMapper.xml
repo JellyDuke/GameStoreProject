@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gamestoreproject.dao.GamesDao">
+	<select id="selectGameList">
+		SELECT GCODE, GNAME, GSYSTEM, GPUBLISHER, GMAKER, TO_CHAR(GRELEASE, 'YYYY-MM-DD') AS GRELEASE, GMAINIMG, GIMG, GVIDEO, GPRICE, GSALE, GDEADLINE, GTAG, GSTATE
+	 	FROM GAMES
+	 	WHERE ROWNUM BETWEEN 1 AND #{gameCount } AND GSTATE = '1'
+	</select>
+	
+	<select id="selectGameDetail" parameterType="String" resultType="com.gamestoreproject.dto.Game">
+		SELECT GCODE, GNAME, GCONTENT, GSYSTEM, GPUBLISHER, GMAKER, TO_CHAR(GRELEASE, 'YYYY-MM-DD') AS GRELEASE, GMAINIMG, GIMG, GVIDEO, GPRICE, GSALE, GDEADLINE, GTAG, GSTATE
+		FROM GAMES
+		WHERE GCODE = #{gcode }
+	</select>
+	
+	<select id="selectRcode">
+		SELECT NVL(MAX(RCODE), 'RC00000')
+		FROM REVIEWS
+	</select>
+	
+	<insert id="insertReview" parameterType="com.gamestoreproject.dto.Review">
+		INSERT INTO REVIEWS(RCODE, RGCODE, RMCODE, RDATE, RSCORE, RLIKE, RCONTENT, RSTATE)
+		VALUES(#{review.rcode }, #{review.rgcode }, #{review.rmcode }, SYSDATE, #{review.rscore }, 0, #{review.rcontent }, 'Y')
+	</insert>
+	
+	<select id="selectReviewList" parameterType="String" resultType="hashmap">
+		SELECT RE.RCODE AS RCODE, TO_CHAR(RE.RDATE, 'YYYY-MM-DD HH24:MI') AS RDATE, RE.RSCORE AS RSCORE, RE.RLIKE AS RLIKE, RE.RCONTENT AS RCONTENT, MEM.MNICKNAME AS NICKNAME, MEM.MPROFILE AS PROFILE, MEM.MID AS MID
+		FROM REVIEWS RE INNER JOIN MEMBERS MEM
+		     ON RE.RMCODE = MEM.MID
+		WHERE RGCODE = #{gcode }
+		ORDER BY RE.RDATE
+	</select>
+	
+	<delete id="deleteReview" parameterType="String">
+		DELETE FROM REVIEWS WHERE RCODE = #{rcode }
+	</delete>
+	
+	<update id="modifyReview" parameterType="com.gamestoreproject.dto.Review">
+		UPDATE REVIEWS
+		SET RCONTENT = #{review.rcontent }, RSCORE = #{review.rscore }
+		WHERE RCODE = #{review.rcode }
+	</update>
+	
+	<select id="selectLikeId" parameterType="String" resultType="String">
+		SELECT RLMID
+		FROM REVIEWLIKES
+		WHERE RLRCODE = #{rcode } AND RLMID = #{memId }
+	</select>
+	
+	<select id="getReviewLikes" parameterType="String" resultType="String">
+		SELECT NVL(RLIKE, '0')
+		FROM REVIEWS
+		WHERE RCODE = #{rcode }
+	</select>
+	
+	<update id="addReviewLike" parameterType="String">
+		UPDATE REVIEWS
+		SET RLIKE = #{likes }
+		WHERE RCODE = #{rcode }
+	</update>
+	
+	<insert id="addLikeId">
+		INSERT INTO REVIEWLIKES(RLRCODE, RLMID, RLSEL)
+		VALUES(#{rcode }, #{memId }, #{selected })
+	</insert>
+	
+	<delete id="deleteReviewLikes" parameterType="String">
+		DELETE
+		FROM REVIEWLIKES
+		WHERE RLRCODE = #{rcode }
+	</delete>
+	
+	<select id="selectScode">
+		SELECT NVL(MAX(SCODE), 'SC00000')
+		FROM SHOPBASKET
+	</select>
+	
+	<insert id="insertGameBasket" parameterType="String">
+		INSERT INTO SHOPBASKET(SCODE, SMCODE, SGCODE)
+		VALUES(#{scode }, #{memId }, #{gcode })
+	</insert>
+	
+	<select id="selectSgcode" parameterType="String" resultType="String">
+		SELECT SGCODE
+		FROM SHOPBASKET
+		WHERE SMCODE = #{memId } AND SGCODE = #{gcode }
+	</select>
+	
+	<select id="selectBasketList" parameterType="String" resultType="com.gamestoreproject.dto.Game">
+		SELECT GM.GCODE AS GCODE, GM.GNAME AS GNAME, GM.GMAINIMG AS GMAINIMG, GM.GPRICE AS GPRICE, GM.GSALE AS GSALE, NVL(TO_CHAR(GM.GDEADLINE, 'YYYY-MM-DD'), '-') AS GDEADLINE, GM.GTAG AS GTAG, GM.GSTATE AS GSTATE
+		FROM SHOPBASKET SB INNER JOIN GAMES GM ON SB.SGCODE = GM.GCODE
+		WHERE SB.SMCODE = #{memId }
+	</select>
+	
+	<delete id="deleteSelBasket">
+		DELETE
+		FROM SHOPBASKET
+		WHERE SMCODE = #{memId } AND SGCODE IN
+		<foreach collection="gcodeList" item="gcode" index="index" separator="," open="(" close=")">
+			#{gcode }
+		</foreach>
+	</delete>
+	
+	<delete id="deleteCantBuyGame" parameterType="String">
+		DELETE
+		FROM SHOPBASKET
+		WHERE SGCODE IN (SELECT GCODE
+		                FROM GAMES
+		                WHERE GSTATE = '0')
+		      AND SMCODE = #{memId }
+	</delete>
+	
+	<select id="selectCouponList" parameterType="String" resultType="hashmap">
+		SELECT CCODE, CPERCENT, TO_CHAR(CDEADLINE, 'YYYY-MM-DD') AS CDEADLINE, CTYPE
+		FROM COUPONS
+		WHERE COWNER = #{memId } AND CUSED = 'N'
+		ORDER BY CDEADLINE
+	</select>
+	
+	<select id="selectOcode" parameterType="String" resultType="String">
+		SELECT OCODE
+		FROM ORDERS
+		WHERE OMCODE = #{gcode } AND OITEM = #{gname }
+	</select>
+	
+	<select id="selectMpoint" parameterType="String" resultType="int">
+		SELECT MPOINT
+		FROM MEMBERS
+		WHERE MID = #{memId }
+	</select>
+	
+	<update id="updatePoint">
+		UPDATE MEMBERS
+		SET MPOINT = MPOINT - #{totalPrice }
+		WHERE MID = #{memId }
+	</update>
+	
+	<update id="updateCoupons" parameterType="String">
+		UPDATE COUPONS
+		SET CUSED = 'Y'
+		WHERE CCODE = #{memId } AND COWNER = #{couponCode };
+	</update>
+	
+	<select id="selectBuyGameInfo" parameterType="String" resultType="com.gamestoreproject.dto.Game">
+		SELECT GCODE, GNAME, GPRICE, GSALE
+		FROM GAMES
+		WHERE GCODE = #{gcode }
+	</select>
+	
+	<select id="selectLastOcode" resultType="String">
+		SELECT NVL(MAX(OCODE), 'OD00000')
+		FROM ORDERS
+	</select>
+	
+	<insert id="insertOrders">
+		INSERT INTO ORDERS(OCODE, OCCODE, OMCODE, ODATE, OPRICE, OORIGINPRICE, ODISCOUNT, OITEM, OSTATE)
+		VALUES(#{ocode }, #{couponCode }, #{memID }, SYSDATE, #{gprice }, #{goriginprice }, #{gsale }, #{gname }, 'S')
+	</insert>
+	
+	<delete id="buyDeleteBasket" parameterType="String">
+		DELETE
+		FROM SHOPBASKET
+		WHERE SMCODE = #{memId } AND SGCODE = #{gcode }
+	</delete>
+	
+</mapper>
