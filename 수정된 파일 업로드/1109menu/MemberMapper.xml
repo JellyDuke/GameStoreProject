@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gamestoreproject.dao.MemberDao">
+	<select id="selectMemberInfo" resultType="com.gamestoreproject.dto.Member">
+		SELECT * FROM MEMBERS WHERE MID = #{inputId}
+	</select>
+	
+	<insert id="joinInsertInfo" parameterType="com.gamestoreproject.dto.Member">
+		INSERT INTO MEMBERS(MID, MPW, MNAME, MNICKNAME , MPOINT, MPROFILE, MSTATE, MDATE ) 
+		VALUES(#{member.mid }, #{member.mpw }, #{member.mname }, #{member.mnickname}, 0, '기본이미지', 'N', SYSDATE)
+	</insert>
+	
+	<select id="selectMemberLogin" resultType="com.gamestoreproject.dto.Member" parameterType="String">
+		SELECT * FROM MEMBERS WHERE MID = #{mid} AND MPW = #{mpw}
+	</select>
+	
+	<insert id="insertMember_kakao">
+		INSERT INTO MEMBERS(MID, MPW, MNAME, MNICKNAME , MPOINT, MPROFILE, MSTATE, MDATE ) 
+		VALUES(#{member.mid}, '1111', #{member.mname}, #{member.mnickname}, 0, #{member.mprofile}, 'YK', SYSDATE)
+	</insert>
+	
+	<select id="memberFindMpwCheck" resultType="int">
+		select count(*) from MEMBERS where MID = #{userId}
+	</select>
+	
+	<update id="memberFindMpw">
+		update MEMBERS SET MPW = #{mpw} where MID = #{mid}
+	</update>
+	
+	<select id="getMemInfo" parameterType="String" resultType="com.gamestoreproject.dto.Member">
+		SELECT * FROM MEMBERS WHERE MID = #{id }
+	</select>
+	
+	<insert id="memberJoin_Naver" parameterType="com.gamestoreproject.dto.Member">
+		INSERT INTO MEMBERS(MID, MPW, MNAME, MNICKNAME, MPOINT, MPROFILE, MSTATE, MDATE)
+		VALUES(#{mem.mid }, 'naverAccount', #{mem.mname }, #{mem.mnickname }, 0, #{mem.mprofile }, 'YN', SYSDATE)
+	</insert>
+	
+	<select id="selectBasketCount" parameterType="String">
+		SELECT COUNT(*)
+		FROM SHOPBASKET
+		WHERE SMCODE = #{memId }
+	</select>
+</mapper>
