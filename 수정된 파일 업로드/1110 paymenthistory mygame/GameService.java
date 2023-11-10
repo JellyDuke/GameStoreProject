@@ -371,6 +371,7 @@ public ArrayList<Game> getbasketList(String memId) {
 	public int adminChange(Double percent, String gcode) {
 		return gdao.adminChange(percent, gcode);
 	}
+	// change
 	public ArrayList<Game> getMemgList(String mid) {
 		ArrayList<Game> gList = gdao.getMemgList(mid);
 		for(Game game : gList) {
@@ -392,5 +393,6 @@ public ArrayList<Game> getbasketList(String memId) {
 		}
 		return 0;
 	}
+	// change
 
 }
