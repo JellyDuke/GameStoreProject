@@ -109,6 +109,7 @@
 	<select id="getMNick" resultType="String">
 		SELECT MNICKNAME FROM MEMBERS WHERE MID = #{mid}
 	</select>
+	/ change
 	<select id="getoList" resultType="od">
 		SELECT OD.*, GM.GMAINIMG, GM.GCODE 
 		FROM ORDERS OD INNER JOIN GAMES GM ON OD.OITEM = GM.GNAME 
@@ -122,6 +123,7 @@
 		UPDATE MEMBERS
 		SET MPOINT = MPOINT + #{oprice} WHERE MID = #{mid}
 	</update>
+	change /
 	<!-- 결제 끝 -->
 	
 	<!-- 게임 디테일 시작 -->
