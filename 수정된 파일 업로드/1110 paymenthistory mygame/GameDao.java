@@ -64,11 +64,11 @@ public interface GameDao {
 
 	String getMNick(String mid);
 	
-	ArrayList<Order> getoList(String mid);
+	ArrayList<Order> getoList(String mid); // change
 	
-	int changeCheck(String ocode);
+	int changeCheck(String ocode); // change
 	
-	int refund(@Param("mid")String mid, @Param("oprice")String oprice);
+	int refund(@Param("mid")String mid, @Param("oprice")String oprice); // change
 	//order 끝
 	
 	//gamedetail 시작
