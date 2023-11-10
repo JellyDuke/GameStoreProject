@@ -19,7 +19,7 @@ public class Game {
 	private String gdeadline;
 	private String gtag;
 	private String gstate;
-	private String grcheck;
+	private String grcheck; // change
 	public String getGcode() {
 		return gcode;
 	}
