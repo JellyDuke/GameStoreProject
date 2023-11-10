@@ -72,6 +72,7 @@ public class UserInfoController {
 		mav.setViewName("userInfo/myReviewPage");
 		return mav;
 	}
+	// change
 	@RequestMapping(value = "/paymentHistory", method = RequestMethod.GET)
 	public ModelAndView paymentHistory(HttpSession session){
 		String mid = (String) session.getAttribute("loginId");
@@ -96,6 +97,7 @@ public class UserInfoController {
 			return "N";
 		}
 	}
+	// change
 	//페이지 보기 끝
 	
 	
