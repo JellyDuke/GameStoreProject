@@ -132,7 +132,7 @@
                     </c:choose>
                     
                     </ul>
-                    <form class="d-flex" action="${pageContext.request.contextPath }/basketpage/?memId=${sessionScope.loginId}" method="post">
+                    <form class="d-flex" action="${pageContext.request.contextPath }/basketpage/?memId=${sessionScope.loginId}" method="post"> // change
                         <button class="btn btn-outline-dark">
                             <i class="bi-cart-fill me-1"></i>
                             장바구니
