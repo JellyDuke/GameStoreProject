@@ -13,8 +13,10 @@ public class Order {
 	private String oitem;
 	private String omcode;
 	private String ostate;
+	// change
 	private String gmainimg;
 	private String gcode;
+	// change
 	public String getOcode() {
 		return ocode;
 	}
