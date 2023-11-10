@@ -384,5 +384,13 @@ public ArrayList<Game> getbasketList(String memId) {
 		}
 		return gList;
 	}
+	public int refundCheck(String oprice, String ocode, String mid) {
+		int changeCheck = gdao.changeCheck(ocode);
+		if(changeCheck>0) {
+			int refundCheck = gdao.refund(mid, oprice);
+			return refundCheck;
+		}
+		return 0;
+	}
 
 }

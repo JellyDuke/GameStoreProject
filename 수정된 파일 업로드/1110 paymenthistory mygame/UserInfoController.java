@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -82,7 +83,19 @@ public class UserInfoController {
 		mav.setViewName("userInfo/paymentHistoryPage");
 		return mav;
 	}
-	
+	@RequestMapping(value ="/refund" , method = RequestMethod.POST)
+	public @ResponseBody String refund(String oprice, String ocode, HttpSession session) {
+		System.out.println("게임 구매 취소 요청");
+		String mid = (String) session.getAttribute("loginId");
+		int refundCheck = gsvc.refundCheck(oprice, ocode, mid);
+		if(refundCheck>0) {
+			String mpoint = usvc.getMemPoint(mid);
+			session.setAttribute("loginPoint", mpoint);
+			return "Y";		
+		} else {
+			return "N";
+		}
+	}
 	//페이지 보기 끝
 	
 	

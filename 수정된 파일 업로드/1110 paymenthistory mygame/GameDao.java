@@ -65,6 +65,10 @@ public interface GameDao {
 	String getMNick(String mid);
 	
 	ArrayList<Order> getoList(String mid);
+	
+	int changeCheck(String ocode);
+	
+	int refund(@Param("mid")String mid, @Param("oprice")String oprice);
 	//order 끝
 	
 	//gamedetail 시작
@@ -129,4 +133,6 @@ public interface GameDao {
 	ArrayList<Game> getMemgList(String mid);
 
 	int grcheck(@Param("gcode")String gcode, @Param("mid")String mid);
+
+
 }

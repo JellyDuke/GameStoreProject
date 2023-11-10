@@ -110,8 +110,18 @@
 		SELECT MNICKNAME FROM MEMBERS WHERE MID = #{mid}
 	</select>
 	<select id="getoList" resultType="od">
-		SELECT * FROM ORDERS WHERE OMCODE = #{mid} AND OITEM != 'point'
+		SELECT OD.*, GM.GMAINIMG, GM.GCODE 
+		FROM ORDERS OD INNER JOIN GAMES GM ON OD.OITEM = GM.GNAME 
+		WHERE OMCODE = #{mid} AND OITEM != 'point'
 	</select>
+	<update id="changeCheck">
+		UPDATE ORDERS
+		SET OSTATE = 'R' WHERE OCODE = #{ocode}
+	</update>
+	<update id="refund">
+		UPDATE MEMBERS
+		SET MPOINT = MPOINT + #{oprice} WHERE MID = #{mid}
+	</update>
 	<!-- 결제 끝 -->
 	
 	<!-- 게임 디테일 시작 -->

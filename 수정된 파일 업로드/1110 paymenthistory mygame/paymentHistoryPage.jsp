@@ -148,6 +148,13 @@
     			max-width: 130px;
     			max-height: 100px;		
     		}
+    		.d-none{
+    			display: none;
+    		}
+    		.imgdiv{
+    			width: 100px;
+    			height: 100px;
+    		}
     	</style>
     </head>
     <body>
@@ -173,15 +180,16 @@
 					  		내 결제(환불) 목록  
 	            			<div class="dropdown" style="margin-right: 45px;">
 								  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-								    결제 목록
+								    전체
 								  </button>
-								  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-								    <li><a class="dropdown-item" href="#">결제 목록</a></li>
-									<li><a class="dropdown-item" href="#">환불 목록</a></li>
+								  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+								    <li><a class="dropdown-item" onclick="sortTable('nref')">결제</a></li>
+									<li><a class="dropdown-item" onclick="sortTable('ref')">환불</a></li>
+									<li><a class="dropdown-item" onclick="sortTable('all')">전체</a></li>
 								  </ul>
 							</div> 	
             			</div>
-	            		<div class="table_div w-100 h-100">
+	            		<div class="table_div">
 							<table class="w-100 h-100">			
 								<thead>
 									<tr>
@@ -195,21 +203,28 @@
 								</thead>								
 								<tbody>
 								<c:forEach items="${oList}" var="ol">
-									<tr>
-										<td>${ol.oitem}</td>
-										<td>${ol.ooriginprice}</td>
-										<td>${ol.ooriginprice-ol.oprice}</td>
-										<td>${ol.oprice}</td>
-										<td>${ol.odate}</td>
 										<c:choose>
 											<c:when test="${ol.ostate == 'S'}">
-												<td> 구매완료 <br> <button id="${ol.ocode}" class="btn mt-2 btn-secondary">구매취소</button> </td>										
+												<tr class="nref">
+													<td onclick="location.href='${pageContext.request.contextPath }/gameDetail/?gcode=${ol.gcode }'"> <div class="imgdiv"> <img class="w-100 h-100" alt="" src="${ol.gmainimg}"> </div> <br> ${ol.oitem}</td>
+													<td>${ol.ooriginprice}</td>
+													<td>${ol.ooriginprice-ol.oprice}</td>
+													<td>${ol.oprice}</td>
+													<td>${ol.odate}</td>
+													<td> 구매완료 <br> <button id="${ol.ocode}" value="${ol.oprice}" onclick="refund(this)" class="btn mt-2 btn-secondary">구매취소</button> </td>										
+												</tr>
 											</c:when>
 											<c:otherwise>
-												<td> 환불완료</td>								
+												<tr class="ref">
+													<td onclick="location.href='${pageContext.request.contextPath }/gameDetail/?gcode=${ol.gcode }'"> <div class="imgdiv"> <img class="w-100 h-100" alt="" src="${ol.gmainimg}"> </div> <br> ${ol.oitem}</td>
+													<td>${ol.ooriginprice}</td>
+													<td>${ol.ooriginprice-ol.oprice}</td>
+													<td>${ol.oprice}</td>
+													<td>${ol.odate}</td>
+													<td> 환불완료</td>																		
+												</tr>
 											</c:otherwise>
 										</c:choose>
-									</tr>
 								</c:forEach>									
 									<tr class="h-auto"></tr>
 								</tbody>
@@ -232,6 +247,61 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="resources/users/js/scripts.js"></script>
-        
+        <script type="text/javascript">
+	        let nrtr = document.querySelectorAll('.nref');
+	    	let retr = document.querySelectorAll('.ref');
+	    	let dropbtn = document.querySelector('#dropdownMenuButton1');
+	        function sortTable(sor){
+	        	
+	    		if(sor == 'nref'){
+	    			dropbtn.innerText = "결제";
+	    			for(let i of retr){	    				
+	    				i.classList.add('d-none');    				
+	    			}
+	    			for(let j of nrtr){	    				
+	    				j.classList.remove('d-none');
+	    			}
+	    		} else if(sor == 'ref'){
+	    			dropbtn.innerText = "환불";
+	    			for(let k of nrtr){
+		    			k.classList.add('d-none');
+	    			}
+	    			for(let z of retr){
+	    				z.classList.remove('d-none');    				
+	    			}
+	    		} else {
+	    			dropbtn.innerText = "전체";
+	    			for(let j of nrtr){
+		    			j.classList.remove('d-none');
+	    			}
+	    			for(let z of retr){
+	    				z.classList.remove('d-none');    				
+	    			}
+	    		}
+	    	}
+        </script>
+        <script type="text/javascript">
+        	function refund(btn){
+        		console.log(btn.id);
+        		console.log(btn.value);
+        		$.ajax({
+        			type : "post",
+        			url : "refund",
+        			data : {
+        					'ocode':btn.id,
+    						'oprice':btn.value
+    					   },
+    				async : false,
+    				success:function(result){
+    					if(result == "Y"){
+    						alert("환불 완료");
+    						location.reload();
+    					} else {
+    						alert("환불 실패");
+    					}					
+    				}
+        		})
+        	}
+        </script>
     </body>
 </html>
