@@ -233,9 +233,11 @@ public class UserInfoService {
 	public String getMNick(String mid) {
 		return gdao.getMNick(mid);
 	}
+	// change
 	public ArrayList<Order> getoList(String mid) {
 		return gdao.getoList(mid);
 	}
+	// change
 	//끝
 	
 	//review리뷰
